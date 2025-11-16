@@ -1,0 +1,4 @@
+provider: ollama
+model: nomic-embed-text
+
+# Parâmetros adicionais específicos do modelo podem ser adicionados aqui

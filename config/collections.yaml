@@ -1,0 +1,6 @@
+collections:
+  - name: charmbracelet_shantilly_knowledge
+    description: Base principal com docs/códigos do ecossistema Charmbracelet, projetos derivados e libs Go usadas/consideradas.
+    vector_size: 1024  # ajuste para o tamanho do embedding escolhido
+    distance: cosine
+    on_disk: true

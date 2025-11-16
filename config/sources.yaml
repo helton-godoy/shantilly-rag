@@ -1,0 +1,38 @@
+charmbracelet_official:
+  - name: bubbletea
+    repo: charmbracelet/bubbletea
+    type: library
+  - name: bubbles
+    repo: charmbracelet/bubbles
+    type: library
+  - name: lipgloss
+    repo: charmbracelet/lipgloss
+    type: library
+  - name: gum
+    repo: charmbracelet/gum
+    type: tool
+
+  # Você pode ir adicionando outras libs charmbracelet aqui
+
+derived_projects:
+  - name: stickers
+    repo: 76creates/stickers
+    type: layout
+  - name: bubbleboxer
+    repo: treilik/bubbleboxer
+    type: layout
+
+# Outras bibliotecas Go relevantes (usadas ou consideradas)
+go_libraries:
+  # Exemplo:
+  # - name: cobra
+  #   repo: spf13/cobra
+  #   module: github.com/spf13/cobra
+  - name: shantilly
+    repo: helton-godoy/shantilly
+    module: github.com/helton-godoy/shantilly
+
+manual_docs:
+  # Lista de URLs (blog posts, docs externas) que você quiser incorporar
+  # - url: https://github.com/charmbracelet/gum/blob/main/README.md
+  #   type: readme
