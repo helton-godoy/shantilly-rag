@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 
+import requests
 from qdrant_client import QdrantClient
 from qdrant_client.http import models as rest
 
@@ -24,14 +25,55 @@ def load_collections_config():
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
+def load_embedding_config():
+    import yaml
 
-def embed(texts):
+    path = CONFIG_DIR / "embedding.yaml"
+    with path.open("r", encoding="utf-8") as f:
+        return yaml.safe_load(f) or {}
+
+
+def embed(texts, expected_dim=None):
     """Stub para embeddings.
 
     Em uma próxima etapa vamos conectar com o Ollama ou outro provider.
     Por enquanto, levanta um erro claro para evitar uso acidental.
     """
-    raise RuntimeError("Embeddings não configurados ainda. Implemente a função embed().")
+    cfg = load_embedding_config()
+    provider = cfg.get("provider", "ollama")
+    if provider != "ollama":
+        raise RuntimeError(f"Provider de embeddings não suportado: {provider!r}")
+
+    model = cfg.get("model", "nomic-embed-text")
+    base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434").rstrip("/")
+    url = f"{base_url}/api/embeddings"
+
+    vectors = []
+    for idx, text in enumerate(texts):
+        resp = requests.post(
+            url,
+            json={"model": model, "prompt": text},
+            timeout=60,
+        )
+        if resp.status_code != 200:
+            raise RuntimeError(
+                f"Falha ao obter embedding via Ollama (status {resp.status_code}) "
+                f"para item {idx}: {resp.text}"
+            )
+        data = resp.json()
+        vec = data.get("embedding")
+        if vec is None:
+            raise RuntimeError(
+                "Resposta de embeddings do Ollama não contém campo 'embedding'"
+            )
+        if expected_dim is not None and len(vec) != expected_dim:
+            raise RuntimeError(
+                f"Dimensão do embedding ({len(vec)}) diferente do esperado ({expected_dim})."
+            )
+
+        vectors.append(vec)
+
+    return vectors
 
 
 def main() -> None:
@@ -70,16 +112,19 @@ def main() -> None:
                 data = json.loads(line)
                 records.append(data)
 
-        texts = [r["text"] for r in records]
-        vectors = embed(texts)
+        texts = [f"search_document: {r['text']}" for r in records]
+        vectors = embed(texts, expected_dim=vector_size)
 
         points = []
         for idx, (rec, vec) in enumerate(zip(records, vectors)):
+            payload = dict(rec["metadata"])
+            payload["text"] = rec["text"]
+
             points.append(
                 rest.PointStruct(
                     id=idx,
                     vector=vec,
-                    payload=rec["metadata"],
+                    payload=payload,
                 )
             )
 

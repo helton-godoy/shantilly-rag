@@ -1,0 +1,21 @@
+[Unit]
+Description=Shantilly RAG FastAPI dev server
+After=network-online.target qdrant.service ollama.service
+Wants=qdrant.service ollama.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/helton/git/shantilly-rag
+# Ajuste os envs abaixo conforme necessário
+Environment=OLLAMA_BASE_URL=http://127.0.0.1:11434
+Environment=RAG_BASE_URL=http://127.0.0.1:8000
+Environment=OLLAMA_CHAT_MODEL=phi3:medium
+# Usa o Python do venv do repositório principal para rodar uvicorn diretamente
+ExecStart=/home/helton/git/.venv/bin/uvicorn server.app:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+User=helton
+Group=helton
+
+[Install]
+WantedBy=multi-user.target
