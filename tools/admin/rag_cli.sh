@@ -6,7 +6,7 @@ VENV_DIR="$ROOT_DIR/.venv"
 PYTHON_BIN="python3"
 
 export OLLAMA_BASE_URL="${OLLAMA_BASE_URL:-http://127.0.0.1:11434}"
-export RAG_BASE_URL="${RAG_BASE_URL:-http://127.0.0.1:8000}"
+export RAG_BASE_URL="${RAG_BASE_URL:-http://127.0.0.1:8001}"
 
 log() {
   echo "[rag_cli] $*"

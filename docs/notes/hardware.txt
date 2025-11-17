@@ -1,0 +1,79 @@
+                                 RELATÓRIO DE HARDWARE (COMPATÍVEL COM DEBIAN)
+
+--- Sistema ------ Computador ---
+  Sistema Operacional : Ubuntu 24.04.3 LTS  Fabricante          : Daten Tecnologia Ltda
+  Hostname            : hujm-wk-9721108  Modelo              : DC5A-S
+  Kernel              : 6.14.0-35-generic  Número de Série   : 01045755010001
+  Arquitetura         : x86_64
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+--- Processador (CPU) ------ Memória (RAM) ---
+  Modelo              : AMD Ryzen 7 5700                                Unknown CPU @ 3.7GHz  Total Instalada     : 31Gi
+  Frequência Máxima :   Em Uso              : 10Gi
+  Núcleos Físicos   : 
+  Total de Threads    : 16
+  Cache L3            : 
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+--- Placa-mãe ------ BIOS ---
+  Fabricante          : Daten Tecnologia Ltda  Versão             : A09T3
+  Modelo              : DA3PRO v5  Data                : 05/10/2024
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+--- Dispositivos Gráficos (GPU) ------ Monitores Conectados ---
+  - Advanced Micro Devices, Inc. [AMD/ATI] Lexa PRO [Radeon 540/540X/550/550X / RX 540X/550/550X]  - DisplayPort-0 primary 1920x1080+0+0 (normal left inverted right x axis y axis) 480mm x 270mm
+  - HDMI-A-0 1920x1080+1920+0 (normal left inverted right x axis y axis) 597mm x 336mm
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+--- Rede ------ Áudio ---
+  Hardware:  Hardware:
+    - Realtek Semiconductor Co., Ltd. RTL8111/8168/8211/8411 PCI Express Gigabit Ethernet Controller    - Advanced Micro Devices, Inc. [AMD/ATI] Baffin HDMI/DP Audio [Radeon RX 550 640SP / RX 560/560X]
+    - Realtek Semiconductor Co., Ltd. RTL8822CE 802.11ac PCIe Wireless Network Adapter    - Advanced Micro Devices, Inc. [AMD/ATI] Renoir Radeon High Definition Audio Controller
+    - Advanced Micro Devices, Inc. [AMD] Family 17h/19h HD Audio Controller
+  Interfaces:
+    lo               UNKNOWN        127.0.0.1/8 ::1/128  Dispositivos de Saída:
+    enp4s0f1         UP             10.24.186.178/25 fe80::1c4b:193d:b764:b265/64
+    wlp5s0           DOWN
+    docker0          DOWN           172.17.0.1/16 fe80::c43c:57ff:fe0a:404f/64
+    br-762d1f9878ef  UP             172.18.0.1/16 fe80::b05c:cbff:fe9e:1736/64
+    vetheb56d49@if2  UP             fe80::6472:5ff:fe5a:80a2/64
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+--- Armazenamento (Discos e Partições) ---
+NAME         SIZE          TYPE  FSTYPE  MOUNTPOINT
+sda          320071851520  disk          
+├─sda1       214748364800  part  xfs     /media/helton/XFS-200G
+└─sda2       105320022016  part  ntfs    
+nvme0n1      512110190592  disk          
+├─nvme0n1p1  1153433600    part  ntfs    
+├─nvme0n1p2  104857600     part  vfat    
+├─nvme0n1p3  134217728     part          
+├─nvme0n1p4  214748364800  part  ntfs    
+├─nvme0n1p5  1073741824    part  vfat    /boot/efi
+├─nvme0n1p6  276824064000  part  btrfs   /swap
+└─nvme0n1p7  18070445568   part  swap    [SWAP]
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+--- Dispositivos USB ---
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 001 Device 002: ID 1a2c:6004 China Resource Semico Co., Ltd USB Keyboard
+Bus 001 Device 003: ID 30fa:0300  USB Optical Mouse 
+Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 003 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 003 Device 002: ID 1f75:0621 Innostor Technology Corporation IS621 SATA Storage Controller
+Bus 004 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 004 Device 002: ID 13d3:3549 IMC Networks Bluetooth Radio
+Bus 005 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 006 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 006 Device 002: ID 046d:0825 Logitech, Inc. Webcam C270
+Bus 007 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+--- Dispositivos de Entrada ---
+⎡ Virtual core pointer                          id=2    [master pointer  (3)]
+⎜   ↳ Virtual core XTEST pointer                id=4    [slave  pointer  (2)]
+⎜   ↳ SEMICO USB Keyboard Consumer Control      id=10   [slave  pointer  (2)]
+⎜   ↳ USB Optical Mouse                         id=12   [slave  pointer  (2)]
+⎣ Virtual core keyboard                         id=3    [master keyboard (2)]
+    ↳ Virtual core XTEST keyboard               id=5    [slave  keyboard (3)]
+    ↳ Power Button                              id=6    [slave  keyboard (3)]
+    ↳ Video Bus                                 id=7    [slave  keyboard (3)]
+    ↳ Power Button                              id=8    [slave  keyboard (3)]
+    ↳ SEMICO USB Keyboard                       id=9    [slave  keyboard (3)]
+    ↳ SEMICO USB Keyboard System Control        id=11   [slave  keyboard (3)]
+    ↳ SEMICO USB Keyboard Consumer Control      id=13   [slave  keyboard (3)]
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Fim do Relatório.
