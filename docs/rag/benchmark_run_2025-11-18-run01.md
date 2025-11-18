@@ -2,7 +2,7 @@
 
 ## Resumo
 
-Este relatório resume os resultados do benchmark do Shantilly RAG a partir do arquivo CSV: `tools/report/bench_results/summary.csv`.
+Este relatório resume os resultados do benchmark do Shantilly RAG a partir do arquivo CSV: `tools/report/bench_results/2025-11-18-run01/summary.csv`.
 
 ### Hardware do benchmark
 
@@ -16,8 +16,9 @@ Este relatório resume os resultados do benchmark do Shantilly RAG a partir do a
 
 | Variante | Execuções OK | Latência mínima (ms) | Latência média (ms) | Latência média (humana) | Erros? |
 |---------|--------------|----------------------|---------------------|--------------------------|--------|
-| vec30r6 | 1 | 238396 | 238396 | 3m 58.4s | não |
-| vec20r5 | 1 | 143390 | 143390 | 2m 23.4s | não |
+| vec40r10 | 1 | 147672 | 147672 | 2m 27.7s | não |
+| vec30r6 | 1 | 292794 | 292794 | 4m 52.8s | não |
+| vec20r5 | 1 | 298772 | 298772 | 4m 58.8s | não |
 
 ## Conclusão preliminar
 

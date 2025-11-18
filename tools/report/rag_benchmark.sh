@@ -42,13 +42,14 @@ log() {
 
 usage() {
   cat <<EOF
-Uso: $(basename "$0") --query "PERGUNTA" [--configs GLOB] [--runs N] [--csv ARQUIVO]
+Uso: $(basename "$0") --query "PERGUNTA" [--configs GLOB] [--runs N] [--csv ARQUIVO] [--run-dir DIR]
 
 Parâmetros:
   --query   Pergunta a ser usada em todos os testes (obrigatório).
   --configs Glob de arquivos de config de retrieval (default: tools/templates/retrieval/retrieval.bench.*.yaml).
   --runs    Número de execuções por configuração (default: 1).
   --csv     Arquivo CSV opcional para resumo (variant,run,timestamp,latency_ms,file).
+  --run-dir Diretório onde salvar arquivos JSON e CSV (default: tools/report/bench_results).
 
 Exemplo:
   $(basename "$0") \
@@ -74,6 +75,8 @@ while [[ $# -gt 0 ]]; do
       RUNS="$2"; shift 2;;
     --csv)
       CSV_OUT="$2"; shift 2;;
+    --run-dir)
+      BENCH_DIR="$2"; shift 2;;
     -h|--help)
       usage; exit 0;;
     *)
@@ -82,6 +85,8 @@ while [[ $# -gt 0 ]]; do
       exit 1;;
   esac
 done
+
+mkdir -p "$BENCH_DIR"
 
 if [[ -z "$QUERY" ]]; then
   log "Erro: --query é obrigatório"

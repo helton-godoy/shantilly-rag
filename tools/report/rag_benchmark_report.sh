@@ -17,11 +17,17 @@ if [[ ! -f "$CSV_PATH" ]]; then
   exit 1
 fi
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+HW_SUMMARY=""
+if [[ -x "$SCRIPT_DIR/rag_benchmark_hw_summary.sh" ]]; then
+  HW_SUMMARY="$($SCRIPT_DIR/rag_benchmark_hw_summary.sh 2>/dev/null || true)"
+fi
+
 # Ignora a linha de cabeçalho e acumula estatísticas por variante.
 # Formato esperado:
 # variant,run,timestamp,latency_ms,status,file
 
-awk -F, 'NR>1 {
+awk -F, -v hw="$HW_SUMMARY" 'NR>1 {
   variant=$1; run=$2; ts=$3; lat=$4; status=$5;
   if (!(variant in seen)) {
     seen[variant]=1;
@@ -46,23 +52,34 @@ END {
   printf("## Resumo\n\n");
   printf("Este relatório resume os resultados do benchmark do Shantilly RAG a partir do arquivo CSV: `%s`.\n\n", ARGV[1]);
 
+  if (hw != "") {
+    printf("### Hardware do benchmark\n\n");
+    printf("%s\n\n", hw);
+  }
+
   printf("## Resultados por variante\n\n");
-  printf("| Variante | Execuções OK | Latência mínima (ms) | Latência média (ms) | Erros? |\n");
-  printf("|---------|--------------|----------------------|---------------------|--------|\n");
+  printf("| Variante | Execuções OK | Latência mínima (ms) | Latência média (ms) | Latência média (humana) | Erros? |\n");
+  printf("|---------|--------------|----------------------|---------------------|--------------------------|--------|\n");
 
   for (v in seen) {
     ok=ok_count[v];
     min=min_lat[v];
     avg="-";
+    avg_human="-";
     if (ok>0) {
-      avg=sum_lat[v]/ok;
+      avg_ms=sum_lat[v]/ok;
+      avg=avg_ms;
+      sec=avg_ms/1000;
+      mins=int(sec/60);
+      secs=sec-(mins*60);
+      avg_human=sprintf("%dm %.1fs", mins, secs);
     }
     err = has_error[v] ? "sim" : "não";
     if (min==0) { min="-"; }
     if (avg=="-") {
-      printf("| %s | %d | %s | %s | %s |\n", v, ok, min, avg, err);
+      printf("| %s | %d | %s | %s | %s | %s |\n", v, ok, min, avg, avg_human, err);
     } else {
-      printf("| %s | %d | %s | %.0f | %s |\n", v, ok, min, avg, err);
+      printf("| %s | %d | %s | %.0f | %s | %s |\n", v, ok, min, avg, avg_human, err);
     }
   }
 
