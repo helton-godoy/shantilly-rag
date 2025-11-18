@@ -74,7 +74,7 @@ class OllamaLLMClient(LLMClient):
             "messages": [{"role": "user", "content": prompt}],
             "stream": False,
         }
-        resp = requests.post(url, json=payload, timeout=120)
+        resp = requests.post(url, json=payload, timeout=300)
         if resp.status_code != 200:
             raise RuntimeError(
                 f"Falha ao gerar resposta via Ollama (status {resp.status_code}): {resp.text}"

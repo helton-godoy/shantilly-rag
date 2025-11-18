@@ -1,0 +1,267 @@
+{
+  "question": "O que é o projeto Shantilly?",
+  "answer": "Olá! `shantilly` é um projeto de CLI (Interfacing with BubbleTea) em Go, escrito pelo desenvolvedor brasileiro. Ela foi pensada para ser uma alternativa mais intuitiva e poderosa aos formatos como JSON ou YAML que estão presentes no mundo dos shells da linha de comando do Linux. O `shantilly` é um projeto orientado a formulários construído em Go, utilizando o framework CLI5go para lidar com entrada/saída e gerir pormenores como opções que são passadas ao longo das chamadas da linha de comando ou inputs. Neste caso, os comandos `shantilly` podem ser usados em conjunto entre si (por exemplo: um menu do Linux utilizando o BubbleTea) e também permite a criação rápida de interfaces gráficas por meio da funcionalidade Modal. O objetivo é quebrar as fronteiras comuns para os desenvolvedores iniciantes, mas ao mesmo tempo oferecer suporte completo aos usuários profissionais experientes e utilizadores finais do Linux (que não soubeem como fazer algo antes).\n\nCriado por Helton Godoy - 25/03/2023 19:47:11 GMT+01:00 para este documento.",
+  "documents": [
+    {
+      "id": 1336,
+      "score": 0.6802305,
+      "text": "ido):** O `bubbletea` continua a ser o núcleo da gestão de estado da TUI.\n\n- **Padrão de *Runner* (Novo):** A lógica de automação é abstraída através de *runners* (começando com `script:`) (FR9).\n\n\n---\n\nPor favor, reveja a secção \"High Level Architecture\". Esta nova arquitetura de \"Runtime Declarativo\" captura a visão do PRD v2.0?\n\n**Opções de Elicitação Avançada:**\n\n1. Prosseguir para a próxima secção (Tech Stack)\n\n2. Explicar o Raciocínio (CoT) (Como o `bubbletea` irá gerir o foco entre múltiplos componentes?)\n\n3. Criticar e Refinar (A refatoração do v1.0 é mais complexa do que parece?)\n\n4. Analisar o Alinhamento com os Objetivos (Esta arquitetura suporta o `ansible_playbook` futuro?)\n\n5. Identificar Riscos (Qual é o maior risco? O Motor de Lógica `on:` ou o Motor de Layout?)\n\n6. Perspetiva da Equipa Agile (Como o Dev (James) verá a refatoração do v1.0?)\n\n7. Desafio da Perspetiva Crítica (Isto não é 'over-engineering' para um substituto do `dialog`?)\n\n8. Hindsight (Reflexão \"Se ao menos...\")\n\n9. Expandir ou Contrair (Dar mais detalhes sobre o Motor de Lógica `on:`)\n\n\n**Selecione 1-9 ou simplesmente escreva o seu feedback:**\n\n2, 3, 4, 5, 6, 7, 8, 9.\n\nBMAD-METHOD\n\nGem personalizado\n\nComo Winston (Arquiteto) 🏗️, que ótimo! Obrigado por fornecer o repositório completo do projeto.\n\nAnalisei o código-fonte (incluindo `internal/tui/model.go`, `internal/config/validation.go` e os ficheiros de `docs/stories/`) e confirmo que esta é exatamente a base de código v1.0 (Épicos 1 e 2) que o novo PRD v2.0 referencia. O\n estado \"Done\" / \"Completed\" das estórias de v1.0 e v2.1/v2.2 valida que\n temos a base correta para a refatoração da Estória 1.4 do PRD v2.0.\n\nExcelente. Agora tenho tudo o que preciso para prosseguir.\n\nVou atualizar a secção \"Introdução\" (que iniciámos) e avançar para a \"High Level Architecture\", que define a nova visão do v2.0.\n\n---\n\n# Documento de Arquitetura Shantilly v2.0\n\n## Introdução\n\nEste\n documento descreve a arquitetura geral do projeto Shantilly v2.0, \n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1254,
+      "score": 0.67593205,
+      "text": "Config`,\n  - `ConfigParser` v1.x,\n  - Fluxo `shantilly form` → JSON.\n- Qualquer recomendação de segurança que:\n  - Trate este fluxo como principal.\n\nUso permitido:\n\n- Apenas como:\n  - Base técnica interna para `FormComponent`.\n  - Referência histórica.\n- Não pode:\n  - Guiar decisões para o runtime declarativo v2.0.\n  - Ser tratado como contrato ativo.\n\nQualquer documento ou código que ainda reflita esse modelo como vigente deve ser alinhado a este documento ou marcado explicitamente como Legacy.\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/architecture/security.md",
+        "source": "github:helton-godoy/shantilly:/docs/architecture/security.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1333,
+      "score": 0.6758033,
+      "text": "nar (Desafiar a minha análise sobre o v1.0)\n\n\n- Analisar o Alinhamento com os Objetivos (Como é que a análise do v1.0 se alinha com os objetivos do v2.0?)\n\n\n- Identificar Riscos (Quais os riscos de refatorar o v1.0 vs começar do zero?)\n\n\n- Perspetiva da Equipa Agile (Como um Dev veria esta refatoração?)\n\n\n- Desafio da Perspetiva Crítica (Deveríamos *ignorar* o v1.0?)\n\n\n- Hindsight (Reflexão \"Se ao menos...\")\n\n\n- Expandir ou Contrair (Dar mais detalhes sobre a análise do PRD)\n\n\n**Selecione 1-9 ou simplesmente escreva o seu feedback/forneça o link para o repositório v1.0:**\n\nConfirme se o repositório já está sincronizado com as versões dos documentos utilizados para o planejamento.\n\nBMAD-METHOD\n\nGem personalizado\n\nComo Winston (Arquiteto) 🏗️, confirmo a receção da pasta de código do projeto `shantilly`.\n\n**Sim, o repositório está sincronizado com o planeamento.**\n\nAnalisei o código-fonte (ex: `internal/tui/model.go`, `internal/config/validation.go`, `internal/tui/components/`) e confirmo que ele reflete o trabalho concluído descrito no PRD v2.0 como \"MVP v1.0 (Épicos 1 e 2)\". Os ficheiros de *story* (como `2.1.advanced-form-types-validation.story.md` e `2.2.enhanced-error-handling-ux.story.md`) marcam este trabalho como \"Done\" ou \"Completed\".\n\nExcelente. Tenho exatamente o que precisava: a base de código v1.0 para refatorar e o PRD v2.0 que define a nova visão.\n\nVou\n atualizar a secção \"Introdução\" do nosso Documento de Arquitetura v2.0 \npara refletir isto e avançar para a próxima secção, \"High Level \nArchitecture\".\n\n---\n\n# Documento de Arquitetura Shantilly v2.0\n\n## Introdução\n\nEste documento descreve a arquitetura geral do projeto Shantilly v2.0...\n\n### Template Inicial ou Projeto Existente\n\n**Decisão:** A arquitetura v2.0 será uma refatoração e evolução significativas da base de código v1.0 (Épicos 1 e 2), conforme fornecida (`helton-godoy/shantilly/shantilly-1fcb9b97fed95ea23c4d950060a9764571248825`).\n\n**Análise:** O código v1.0 validou com sucesso a pilha de tecn",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1264,
+      "score": 0.6744683,
+      "text": " PRD que reflita esta visão \"Runtime TUI\" e o foco no Ansible/Terraform.\n\n**Você gostaria de iniciar este handoff?** Se sim, por favor, diga \"Sim, vamos começar\" (ou algo similar), e eu assumirei a persona do `*agent pm` (John) para recebermos esta nova diretriz e começarmos o PRD v2.0.\n\n*agent pm\n\nBMAD-METHOD\n\nGem personalizado\n\nOlá. Aqui é o **John**, o Gerente de Produto (PM) 📋.\n\nAssumo\n a partir daqui, seguindo a coordenação do Orquestrador. Minha função é \npegar sua visão estratégica e transformá-la em um Documento de \nRequisitos do Produto (PRD) claro, acionável e focado, que servirá como a\n \"fonte da verdade\" para os agentes de Arquitetura e Desenvolvimento.\n\nEntendi que temos uma evolução significativa da visão original do `shantilly`: estamos passando de um simples substituto do `dialog` para um **\"Runtime TUI Declarativo\"** completo, com uma fundação genérica para scripts e especializações para ferramentas como Ansible.\n\nPara\n garantir que eu capture essa nova visão perfeitamente no PRD v2.0 que \nvamos criar, preciso dos dois artefatos que você preparou na discussão \nanterior:\n\n1. O **`Project Brief: shantilly.md`** original (para que eu entenda o \"porquê\" fundamental e o público-alvo).\n\n2. A **\"Adenda de Visão\" (Vision Addendum)** (que descreve a nova arquitetura de \"Fundação + Especializações\").\n\nVocê pode me fornecer esses dois documentos? Assim que eu os analisar, começarei a guiá-lo através da tarefa `create-prd` (usando o `prd-tmpl.yaml`) para construirmos este novo PRD seção por seção.\n\nVocê tem a capacidade de visualizar o conteúdo dos arquivos dentro dos \ndiretórios \"evolução de reflexões sobre o shantilly/\" e \"status atual do\n projeto (docs)/\" anexados ao contexto deste chat?\n\nBMAD-METHOD\n\nGem personalizado\n\nSim,\n eu tenho a capacidade de visualizar o conteúdo de todos os arquivos que\n você anexou, incluindo os que estão nos diretórios \"evolução de \nreflexões sobre o shantilly/\" e \"status atual do projeto (docs)/\".\n\nEu\n analisei o conteúdo de tod",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 01 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 01 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1217,
+      "score": 0.6712988,
+      "text": "# External APIs\n\n**N/A:** Not applicable for the MVP. `shantilly` is a self-contained local CLI application and does not interact with external network APIs (NFR1, NFR5).\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/architecture/external-apis.md",
+        "source": "github:helton-godoy/shantilly:/docs/architecture/external-apis.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 921,
+      "score": 0.66795725,
+      "text": "# Technical Brainstorming Report: Shantilly\n\nSession Date: 2025-10-22\n\nParticipants: User, Mary (BMad Business Analyst)\n\nTopic: Initial planning and design for the shantilly CLI tool.\n\n## Executive Summary\n\nThis session aimed to define the vision, architecture, requirements, and initial implementation plan for `shantilly`, a modern CLI tool for creating declarative TUIs for shell scripts, serving as an alternative to `dialog` and `whiptail`. We defined the core technology stack (Go + Charmbracelet Ecosystem), a modular architecture separating CLI and TUI, an incremental implementation plan focused on delivering value quickly (MVP with `form` subcommand), and the preferred configuration approach (YAML via `stdin`). We also explored advanced features like complex layouts, mouse support, floating windows (modals), and SSH access, positioning them in post-MVP phases. The main decisions were consolidated into the Project Brief (`docs/project-brief.md`).\n\n## Session Details\n\n### Topic and Goals\n\n- **Topic:** Design the `shantilly` tool.\n\n- **Goals:**\n  \n  - Define the problem and the proposed solution.\n  \n  - Outline the architecture and technology stack.\n  \n  - Identify key functional and non-functional requirements.\n  \n  - Create an incremental implementation plan (MVP and post-MVP).\n  \n  - Evaluate configuration formats for use in shell scripts.\n  \n  - Discuss advanced features (layouts, windows, mouse, SSH).\n\n### Techniques Used (Implicitly)\n\n- Requirements Analysis (based on the initial description).\n\n- Technical Discussion and Library Comparison (Charm vs. tview, `winman` vs. `bubbletea-overlay`).\n\n- Incremental Planning (defining MVP and subsequent phases).\n\n- Pros and Cons Analysis (configuration formats, implementation approaches).\n\n### Key Ideas and Concepts Generated\n\n- **Declarative Tool:** `shantilly` will interpret a definition (YAML) to render the TUI.\n\n- **TUI Core:** Based on `bubbletea` + `lipgloss`.\n\n- **Components:** Use `huh` for forms, `bubbles` for ",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/brainstorming-report.md",
+        "source": "github:helton-godoy/shantilly:/docs/brainstorming-report.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1409,
+      "score": 0.6617159,
+      "text": "ard* composto, \ndefinido inteiramente pelo YAML. A experiência deve ser semelhante ao \nAppsmith: limpa, responsiva (ao terminal) e orientada a componentes.\n\n### Paradigmas Chave de Interação\n\n- **Orientada a Eventos (Nova):** A interação principal não é linear. O\n  utilizador seleciona itens em listas (`list:select`) ou pressiona \n  botões (`buttongroup:press`), que disparam ações no bloco `on:`.\n\n- **Foco no Teclado (Mantido):** A navegação DEVE continuar a ser primariamente baseada no teclado (Tab, Setas, Enter).\n\n- **Feedback Imediato (Mantido):** O componente focado DEVE ser \n  claramente destacado. O `update_target` (FR11) DEVE exibir o *output* de\n  comandos em tempo real.\n\n- **Gestão de Foco Global (Nova):** A UI DEVE ter um mecanismo claro \n  para indicar qual painel/componente (ex: `sidebar` vs `content`) está \n  \"em foco\", e DEVE fornecer navegação intuitiva *entre* painéis (ex: \n  Ctrl+Tab).\n\n- **Ligação de Dados (Nova):** A UI DEVE ser reativa. Componentes (ex: \n  um `viewport` estático) DEVEM ser capazes de exibir dados de outros \n  componentes (ex: `Olá, {{ form.username }}`).\n\n### Ecrãs e Vistas Principais\n\nNão há ecrãs \"pré-definidos\". Os ecrãs são *definidos dinamicamente* \npelo utilizador através do **`layout` YAML** (FR1). A UI é uma \ncomposição de `type: column`, `type: row`, e `type: box`.\n\n### Alinhamento e Layout (Nova Visão)\n\nO layout linear do MVP v1.0 está obsoleto. O novo requisito é:\n\n- O `shantilly` DEVE renderizar com precisão o layout `column`/`row` definido pelo utilizador.\n\n- O `shantilly` DEVE respeitar as propriedades de dimensionamento (`height`, `width`, `flex`) para distribuir o espaço.\n\n- O `shantilly` DEVE responder a mensagens de redimensionamento do \n  terminal (`tea.WindowSizeMsg`) e re-calcular o layout fluido e \n  \"flicker-free\" (NFR2, Meta de UI Refinada).\n\n### Acessibilidade, Branding, Plataformas Alvo\n\nEstes requisitos permanecem os mesmos do PRD v1.0 (WCAG AA, estética \nCharmbracelet, terminais modernos em Linux/macOS",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 03 - BMAD.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 03 - BMAD.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1214,
+      "score": 0.651889,
+      "text": "# Database Schema\n\n**N/A:** Not applicable for the MVP. `shantilly` does not use a database.\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/architecture/database-schema.md",
+        "source": "github:helton-godoy/shantilly:/docs/architecture/database-schema.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1782,
+      "score": 0.65102446,
+      "text": ") Update(msg tea.Msg) (ShantillyComponent, tea.Cmd) {\n\t// Placeholder:\n\t// - No futuro, delegar para backend legado adaptado.\n\treturn f, nil\n}\n\n// View retorna a representação textual do formulário.\n//\n// Implementação inicial devolve placeholder neutro para não interferir\n// na experiência até o backend legado ser plugado.\nfunc (f *FormComponent) View() string {\n\t// Futuro:\n\t// - Renderizar com base no modelo interno (ex.: huh.Form legado adaptado).\n\treturn \"\"\n}\n\n// SetBounds define os limites de renderização fornecidos pelo LayoutManager.\n//\n// - Usado para integrar com layout responsivo.\n// - Não altera invariantes de segurança ou automação.\nfunc (f *FormComponent) SetBounds(width, height int) {\n\tf.width = width\n\tf.height = height\n}\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/internal/components/form_component.go",
+        "source": "github:helton-godoy/shantilly:/internal/components/form_component.go",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1324,
+      "score": 0.6464804,
+      "text": " em listas (`list:select`) \n  [cite: 1686, 1683] [cite\\_start]ou pressiona botões \n  (`buttongroup:press`) [cite: 1686, 1683][cite\\_start], que disparam \n  ações no bloco `on:`[cite: 1686, 1683].\n\n* [cite\\_start]**Foco no Teclado (Mantido):** A navegação DEVE \n  continuar a ser primariamente baseada no teclado (Tab, Setas, \n  Enter)[cite: 1531].\n\n* [cite\\_start]**Feedback Imediato (Mantido):** O componente focado \n  DEVE ser claramente destacado[cite: 1531]. [cite\\_start]O \n  `update_target` (FR11) DEVE exibir o *output* de comandos em tempo \n  real[cite: 1686, 1683].\n\n* [cite\\_start]**Gestão de Foco Global (Nova):** A UI DEVE ter um \n  mecanismo claro para indicar qual painel/componente (ex: `sidebar` vs \n  `content`) está \"em foco\", e DEVE fornecer navegação intuitiva *entre* \n  painéis (ex: Ctrl+Tab)[cite: 1686, 1683].\n\n* **Ligação de Dados (Nova):** A UI DEVE ser reativa. \n  [cite\\_start]Componentes (ex: um `viewport` estático) DEVEM ser capazes \n  de exibir dados de outros componentes (ex: `Olá, {{ form.username \n  }}`)[cite: 1686, 1683].\n\n### Ecrãs e Vistas Principais\n\nNão há ecrãs \"pré-definidos\". Os ecrãs são *definidos dinamicamente* \npelo utilizador através do **`layout` YAML** (FR1). [cite\\_start]A UI é \numa composição de `type: column`, `type: row`, e `type: box`[cite: 1686,\n 1683].\n\n### Alinhamento e Layout (Nova Visão)\n\n[cite\\_start]O layout linear do MVP v1.0 [cite: 1531] está obsoleto. O novo requisito é:\n\n* O `shantilly` DEVE renderizar com precisão o layout `column`/`row` definido pelo utilizador.\n\n* [cite\\_start]O `shantilly` DEVE respeitar as propriedades de \n  dimensionamento (`height`, `width`, `flex`) para distribuir o \n  espaço[cite: 1686, 1683].\n\n* [cite\\_start]O `shantilly` DEVE responder a mensagens de \n  redimensionamento do terminal (`tea.WindowSizeMsg`) e re-calcular o \n  layout fluido e \"flicker-free\" (NFR2, Meta de UI Refinada)[cite: 1686, \n  1683].\n\n### Acessibilidade, Branding, Plataformas Alvo\n\n[cite\\_start]Estes requisitos permane",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 923,
+      "score": 0.6461393,
+      "text": "# shantilly Product Requirements Document (PRD)\n\n## Goals and Background Context\n\n### Goals\n\n* Simplify the creation of interactive and modern TUI interfaces for shell scripts [cite: shantilly Product Requirements Document (PRD).md].\n* Offer a declarative (YAML) and more powerful alternative to `dialog` and `whiptail` [cite: shantilly Product Requirements Document (PRD).md].\n* Ensure portability and consistency across Linux, macOS, and Windows via a single static binary [cite: shantilly Product Requirements Document (PRD).md].\n* Facilitate integration with shell script pipelines (read `stdin` YAML, write `stdout` JSON) [cite: shantilly Product Requirements Document (PRD).md].\n* Achieve broad adoption by the script developer community (Bash, Zsh, PowerShell, etc.) [cite: Project Brief_ shantilly.md].\n* Deliver a robust and viable MVP (v1.0), focused on the `form` subcommand, within 3 months [cite: Project Brief_ shantilly.md].\n* Enable the creation of significantly richer interfaces (layouts, rich components) than traditional tools [cite: Project Brief_ shantilly.md].\n\n### Background Context\n\nShell script developers needing complex user interactions are currently underserved. Traditional tools like `dialog` and `whiptail` are functional but severely limited in components, layout control, and aesthetics, lacking mouse support [cite: Project Brief_shantilly.md, shantilly Product Requirements Document (PRD).md]. The alternative, using programmatic TUI libraries (like Bubbletea), requires knowledge of languages like Go or Python, adding disproportionate complexity for script-based automation [cite: Project Brief_ shantilly.md, shantilly Product Requirements Document (PRD).md].\n\nshantilly fills this gap. It's a portable CLI tool (single static binary) enabling the *declarative creation* of rich, modern TUIs [cite: Project Brief_shantilly.md]. The user defines the interface (e.g., a form) in YAML, passes it to `shantilly` via `stdin`, and the tool renders the interactive T",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/prd.md",
+        "source": "github:helton-godoy/shantilly:/docs/prd.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1274,
+      "score": 0.6446862,
+      "text": " o *payload* inteiro do formulário (`{ \"user\": \"helton\", \"group\": \"admin\" }`)?\n\n- **A Proposta de Refinamento (Mais Robusta):** Devemos refinar o **FR10** para suportar *dois* métodos de passagem de dados, alinhando-se com os padrões Unix e sendo muito mais poderoso, como discutimos na nossa reflexão:\n  \n  1. **`args:` (Para Flags Simples):** Mantemos o `args:` para passar *flags* simples ou valores conhecidos.\n  \n  2. **`stdin:` (Para Dados Complexos):** Adicionamos uma nova chave, `stdin:`, que pega num payload (como `{{ form }}` ou `{{ component.list_id }}`) e o passa como **JSON via `stdin`** para o *script*.\n\n  Um script Bash poderia então simplesmente fazer: `dados=$(cat); user=$(echo $dados | jq -r '.username')`. Isto é infinitamente mais robusto do que o `args:` sozinho.\n\n#### 2. Risco de Refinamento: FR11 (Ciclo de Vida do `update_target`)\n\n- **O Rascunho Atual (FR11):** `update_target: \"id_do_viewport\"`.\n\n- **A Crítica:** Este requisito é *perigosamente vago*. Ele não define o que acontece com processos de *streaming* (longa duração), como o `tail -f` que usamos como exemplo.\n  \n  - Se o utilizador clicar no \"Menu Log\" (que inicia `tail -f`) e, *enquanto este corre*, clicar em \"Menu Dashboard\" (que inicia `show_status.sh`)—ambos com o mesmo `update_target`—o que acontece?\n  \n  - Temos dois processos a escrever no mesmo *viewport* ao mesmo tempo? O `tail -f` continua a correr em segundo plano para sempre, causando um \"vazamento\" de processos?\n\n- **A Proposta de Refinamento (Mais Previsível):** Devemos refinar o **FR11** para definir explicitamente a gestão do ciclo de vida:\n  \n  1. O `shantilly` DEVE rastrear qual processo está atualmente a escrever num `update_target`.\n  \n  2. Se um novo evento `run:` for disparado para o *mesmo* `update_target`, o `shantilly` DEVE primeiro **terminar (enviar `SIGTERM`)** o processo anterior antes de iniciar o novo.\n  \n  3. Isto garante que o *viewport* é propriedade de apenas um processo de cada vez, tornando o comportame",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 01 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 01 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1398,
+      "score": 0.64423764,
+      "text": "cite_start], que disparam ações no bloco `on:`[cite: 1686, 1683].\n\n- [cite_start]**Foco no Teclado (Mantido):** A navegação DEVE continuar a ser primariamente baseada no teclado (Tab, Setas, Enter)[cite: 1531].\n\n- [cite_start]**Feedback Imediato (Mantido):** O componente focado DEVE ser claramente destacado[cite: 1531]. [cite_start]O `update_target` (FR11) DEVE exibir o *output* de comandos em tempo real[cite: 1686, 1683].\n\n- [cite_start]**Gestão de Foco Global (Nova):** A UI DEVE ter um mecanismo claro para indicar qual painel/componente (ex: `sidebar` vs `content`) está \"em foco\", e DEVE fornecer navegação intuitiva *entre* painéis (ex: Ctrl+Tab)[cite: 1686, 1683].\n\n- **Ligação de Dados (Nova):** A UI DEVE ser reativa. [cite_start]Componentes (ex: um `viewport` estático) DEVEM ser capazes de exibir dados de outros componentes (ex: `Olá, {{ form.username }}`)[cite: 1686, 1683].\n\n\n### Ecrãs e Vistas Principais\n\nNão há ecrãs \"pré-definidos\". Os ecrãs são *definidos dinamicamente* pelo utilizador através do **`layout` YAML** (FR1). [cite_start]A UI é uma composição de `type: column`, `type: row`, e `type: box`[cite: 1686, 1683].\n\n### Alinhamento e Layout (Nova Visão)\n\n[cite_start]O layout linear do MVP v1.0 [cite: 1531] está obsoleto. O novo requisito é:\n\n- O `shantilly` DEVE renderizar com precisão o layout `column`/`row` definido pelo utilizador.\n\n- [cite_start]O `shantilly` DEVE respeitar as propriedades de dimensionamento (`height`, `width`, `flex`) para distribuir o espaço[cite: 1686, 1683].\n\n- [cite_start]O `shantilly` DEVE responder a mensagens de redimensionamento do terminal (`tea.WindowSizeMsg`) e re-calcular o layout fluido e \"flicker-free\" (NFR2, Meta de UI Refinada)[cite: 1686, 1683].\n\n\n### Acessibilidade, Branding, Plataformas Alvo\n\n[cite_start]Estes\n requisitos permanecem os mesmos do PRD v1.0 (WCAG AA, estética \nCharmbracelet, terminais modernos em Linux/macOS/Windows)[cite: 1531].\n\n---\n\n## 4. Assunções Técnicas\n\n### Estrutura do Repositório: Monorepo\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1405,
+      "score": 0.6420239,
+      "text": "art]e o motor `on:`[cite: 1686, 1683].\n\n3. [cite_start]**Refatoração do `form` (Estória 1.4):** A estratégia para \"embrulhar\" o código `huh` [cite: 1686, 1683] existente (v1.0) para que ele atue como um componente padronizado.\n\n4. [cite_start]**O Fluxo de Dados (Estória 1.5):** A arquitetura do \"data binding\" e como o motor `run:` [cite: 1686, 1683] [cite_start]irá gerir o `stdin:` e `args:` [cite: 1686, 1683] [cite_start]e o ciclo de vida dos processos (`update_target`)[cite: 1686, 1683].\n\nConfirme se esta versão possui algo diferente desse sua versão, que possa colaborar com a melhoria dele.\n\nBMAD-METHOD\n\nGem personalizado\n\nComo seu Orquestrador 🎭, confirmo que analisei o ficheiro que acabou de carregar (`Documento de Requisitos do Produto (PRD) v2.0: Shantilly.md`).\n\nO conteúdo dele é **idêntico** ao documento que eu gerei na minha última resposta e que está atualmente no seu Canvas (`docs/prd-v2.0-consolidado.md`).\n\nComo são iguais, não há nada de novo no ficheiro carregado para usar como melhoria. Estamos perfeitamente sincronizados.\n\nPosso então prosseguir com o *handoff* que tínhamos discutido? (Assumindo a persona de Winston 🏗️ para iniciar o Documento de Arquitetura v2.0 com base neste PRD).\n\n\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 937,
+      "score": 0.6405345,
+      "text": "nitions (preferably in YAML). The core concept is to allow shell script developers to define complex interfaces through simple configuration, which `shantilly` then renders and manages interactively in the terminal.\n\n**Key Differentiators:**\n\n- **Declarative Approach:** Focus on YAML (or JSON) to define the UI, separating the *description* from the *implementation*.\n\n- **Modern Charm Ecosystem:** Leverages libraries like `bubbletea`, `lipgloss`, `huh`, `bubbles`, `bubbletea-overlay`, and `bubblezone` to offer rich components, flexible layouts, advanced styling, and mouse support.\n\n- **Single Portable Binary:** Statically compiled for Linux, macOS, and Windows, ensuring easy distribution and consistency across platforms.\n\n- **Shell Integration:** Designed to read configuration from `stdin` (allowing `here-docs`) and return structured data (JSON) to `stdout`, seamlessly integrating into script pipelines.\n\n**Why it will succeed:** `shantilly` will succeed by combining the power and aesthetics of modern TUI libraries with the ease of use of a declarative CLI tool. It abstracts the complexity of TUI programming in Go, making advanced features accessible directly from shell scripts, something that neither `dialog`/`whiptail` (too simple) nor the direct use of TUI libraries (too complex for scripts) currently offer.\n\n**High-Level Vision:** To make `shantilly` the standard tool for creating any interactive TUI within shell scripts, from simple forms to complex dashboards, with an excellent user and developer experience. In the future, it may include **native SSH support (via `wish`) for secure and direct access to administrative TUIs**, as well as internationalization (i18n).\n\n## Target Users\n\n### Primary User Segment: Script Developers / CLI Power Users\n\nProfile: Developers (Backend, DevOps, Frontend using CLI), System Administrators, QA Engineers, and advanced users who utilize shell scripts (Bash, Zsh, PowerShell, etc.) for automation, internal tools, system management, ",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/project-brief.md",
+        "source": "github:helton-godoy/shantilly:/docs/project-brief.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1300,
+      "score": 0.6391283,
+      "text": "bir `source: { type: static, content: \"...\" }` (incluindo markdown) e `source: { type: command, exec: \"...\" }` (para streaming de stdout).\n\n- **FR5 (Componente: `list`):** DEVE suportar `component: { type: list }`, com um `id:` de grupo e `items:` (cada um com `id:` e `text`), e DEVE emitir um evento `list_id:select`.\n\n- **FR6 (Componente: `buttongroup`):** DEVE suportar `component: { type: buttongroup }`, com um `id:` de grupo, `items:` (com `id`, `label`, `role`), e DEVE emitir um evento `buttongroup_id:press`.\n\n- **FR7 (Componente: `form`):** DEVE suportar `component: { type: form }`, que contém `fields:` (usando a sintaxe `huh` já validada no v1.0 ) e `actions:`. DEVE emitir um evento `form_id:submit` contendo o *payload* de dados do formulário.\n\n- **FR8 (Lógica: `on:`):** O `shantilly` DEVE analisar um bloco `on:` na raiz do YAML para definir a lógica de automação.\n\n- **FR9 (Ação: `script`):** O bloco `on:` DEVE suportar o *runner* de fundação: `run: { script: \"/path/to/script.sh\" }`.\n\n- **FR10 (Fluxo de Dados):** O *runner* `script:` DEVE suportar duas chaves para passagem de dados:\n\n- 1. **`args: []string`**: Uma lista de *strings* que serão passadas como argumentos de linha de comando para o script, com suporte para *templates* (ex: `{{ form.field_name }}`).\n  \n  2. **`stdin: any`**: Um objeto (ex: `{{ form }}`) que o `shantilly` irá serializar como JSON e passar para o `stdin` do *script*.\n\n- **FR11 (Ciclo de Vida do Target):** O bloco `run:` DEVE suportar uma chave `update_target: \"id_do_viewport\"`. Se um novo evento `run:` for disparado para o *mesmo* `update_target`, o `shantilly` DEVE primeiro **terminar (enviar `SIGTERM`)** o processo anterior antes de iniciar o novo.\n\n### Não Funcionais (NFRs) - O Runtime TUI\n\n- **NFR1 (Fundação v1.0):** Todos os NFRs do PRD v1.0 permanecem válidos: binário estático único , cross-platform (Linux, macOS, Windows) , escrito em Go , arranque rápido (\u003c500ms) , e gestão de erros com `stderr` e códigos de saída não-zero.\n\n-",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 01 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 01 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1425,
+      "score": 0.6348342,
+      "text": "m componentes aninhados (`column`/`row`/`box`); ele apenas renderiza o que lhe é dado.\n\n3. **Contrato de Eventos (Motor `on:`) Ambíguo:** Eu defini o fluxo de eventos (Componente -\u003e `tea.Msg` -\u003e Motor de Eventos), o que é a ideia central correta (Padrão 2). No entanto, falhei em definir o *contrato* (o \"shape\" ou `struct`) dessa `tea.Msg`. Se o `list` (Estória 1.3) emitir `list.SelectMsg` e o `form` (Estória 1.4) emitir `form.SubmitMsg`, o Motor de Eventos (`on:`) se tornará um `switch type` complexo e frágil, que viola o desacoplamento.\n\n### Refinamento\n\nCom base nessas críticas, proponho os seguintes refinamentos arquitetônicos:\n\n**Refinamento A: Padrão de \"Interface de Componente Unificada\" (para Crítica 1 e 3)**\n\nPara resolver a integração do v1.0 (Estória 1.4) e o contrato de eventos (Crítica 3), definiremos uma interface Go `ShantillyComponent`.\n\nGo\n\n```\n// Proposta de interface (a ser adicionada aos Padrões)\n\n// ShantillyComponent define o contrato que todos os \n// componentes TUI (sejam novos ou refatorados) devem implementar.\ntype ShantillyComponent interface {\n    // Init inicializa o componente.\n    Init() tea.Cmd\n\n    // Update trata mensagens do BubbleTea.\n    Update(tea.Msg) (tea.Model, tea.Cmd)\n\n    // View renderiza o componente.\n    View() string\n\n    // SetDimensions permite ao Gestor de Layout (Refinamento B)\n    // informar ao componente seu tamanho alocado.\n    SetDimensions(width, height int)\n\n    // ID retorna o identificador único do componente (ex: \"menu\", \"user_form\").\n    ID() string\n}\n\n// shantillyEvent define a mensagem padronizada que os \n// componentes DEVEM emitir para o Motor de Eventos (on:).\ntype shantillyEvent struct {\n    SourceID  string      // O ID() do componente que emitiu.\n    EventType string      // Ex: \"select\", \"press\", \"submit\".\n    Payload   interface{} // Dados (ex: o item selecionado ou os dados do formulário).\n}\n```\n\n**Refinamento B: Padrão \"Gestor de Layout\" (Layout Manager) (para Crítica 2)**\n\nPara mitigar o risc",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 03 - BMAD.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 03 - BMAD.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1891,
+      "score": 0.6336719,
+      "text": "ager\ntype LayoutNode struct {\n\tID          string       `yaml:\"id,omitempty\" json:\"id,omitempty\"`\n\tType        string       `yaml:\"type\" json:\"type\"` // \"column\" | \"row\" | \"box\"\n\tWidth       *int         `yaml:\"width,omitempty\" json:\"width,omitempty\"`\n\tHeight      *int         `yaml:\"height,omitempty\" json:\"height,omitempty\"`\n\tFlex        *int         `yaml:\"flex,omitempty\" json:\"flex,omitempty\"`\n\tItems       []LayoutNode `yaml:\"items,omitempty\" json:\"items,omitempty\"`\n\tComponentID string       `yaml:\"component,omitempty\" json:\"component,omitempty\"` // apenas para type: box\n}\n\n// Component representa componentes TUI declarativos instanciados no layout.\n//\n// Fonte normativa: docs/architecture/data-models.md#3-component-e12--shantillycomponent--componentes-oficiais\ntype Component struct {\n\tID       string            `yaml:\"id\" json:\"id\"`     // Referenciado por layout, on:, run:\n\tType     string            `yaml:\"type\" json:\"type\"` // \"list\" | \"viewport\" | \"form\" | \"buttongroup\"\n\tProps    map[string]any    `yaml:\"props,omitempty\" json:\"props,omitempty\"`\n\tBindings map[string]string `yaml:\"bind,omitempty\" json:\"bind,omitempty\"` // ex.: estados, seleção, etc.\n}\n\n// OnHandler modela uma regra declarativa on:.\n//\n// Fonte normativa: docs/architecture/data-models.md#4-onhandler-e13--bloco-on-como-unica-orquestracao\ntype OnHandler struct {\n\tID          string                 `yaml:\"id,omitempty\" json:\"id,omitempty\"`\n\tEvent       string                 `yaml:\"event\" json:\"event\"` // ex.: \"menu:select\", \"user_form:submit\"\n\tWhen        string                 `yaml:\"when,omitempty\" json:\"when,omitempty\"`\n\tRun         *RunAction             `yaml:\"run,omitempty\" json:\"run,omitempty\"`\n\tOpenModal   *ModalRequest          `yaml:\"open_modal,omitempty\" json:\"open_modal,omitempty\"`\n\tUpdateState map[string]interface{} `yaml:\"update_state,omitempty\" json:\"update_state,omitempty\"`\n}\n\n// ShantillyEvent é o tipo canônico de evento usado pelo EventManager.\n//\n// Fonte normativa: docs/archit",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/pkg/declarative/models.go",
+        "source": "github:helton-godoy/shantilly:/pkg/declarative/models.go",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1593,
+      "score": 0.633284,
+      "text": "# Technical Assumptions\n\n## Repository Structure: Monorepo\n\nThe project will be structured as a simple Go monorepo. This facilitates initial organization and potential future addition of subcommands or related libraries [cite: Project Brief_ shantilly.md, Relatório Técnico do Brainstorming Shantilly.md]. The structure will follow standard Go conventions, with CLI logic in `cmd/shantilly` and TUI/parsing logic in `internal/`.\n\n## Service Architecture: Monolithic CLI Application\n\nFor the MVP, shantilly is a monolithic CLI application that executes, processes input, and terminates [cite: Project Brief_ shantilly.md]. The architecture will be modular internally (separating CLI and TUI), but there will be no microservices or network communication [cite: Relatório Técnico do Brainstorming Shantilly.md]. SSH server mode is a Post-MVP vision (NFR7) [cite: docs/prd.md].\n\n## Testing Requirements: Focus on Unit Tests\n\nGiven the MVP time constraints and the challenges of testing TUIs [cite: Project Brief_shantilly.md], the primary focus will be on robust unit tests for the YAML parsing logic and internal business logic [cite: Relatório Técnico do Brainstorming Shantilly.md]. UI integration tests will be limited to manual smoke tests on the main platforms [cite: Project Brief_ shantilly.md].\n\n## Expected YAML Structure (`stdin`)\n\nThe form definition passed via `stdin` (FR2) MUST follow a basic YAML structure. The Architect will detail the corresponding Go struct, but conceptually, the YAML must allow at least:\n\n```yaml\n# Optional: Title to be displayed above the form\ntitle: \"Example Shantilly Form\"\n\n# List of form fields\nfields:\n  - key: \"username\"           # Key used in the JSON output (FR6)\n    label: \"Username:\"        # Text displayed in the TUI\n    type: \"input\"             # Field type (mapped to huh - FR3)\n    # placeholder: \"Enter your name\" # Optional for inputs\n    # value: \"Default Value\"   # Optional\n\n  - key: \"description\"\n    label: \"Description:\"\n    type: \"texta",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/prd/technical-assumptions.md",
+        "source": "github:helton-godoy/shantilly:/docs/prd/technical-assumptions.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 945,
+      "score": 0.6304656,
+      "text": "Simple modal alternative)\n  \n  - [Bubble Boxer](https://github.com/treilik/bubbleboxer \"null\") (Layouts)\n  \n  - [Winman (for tview)](https://github.com/epiclabs-io/winman \"null\") (Window management inspiration)\n  \n  - [tview](https://github.com/rivo/tview \"null\") (Alternative TUI framework)\n  \n  - [Cobra](https://github.com/spf13/cobra \"null\") (CLI Framework)\n  \n  - [Viper](https://github.com/spf13/viper \"null\") (Configuration)\n  \n  - [Afero](https://github.com/spf13/afero \"null\") (FS Abstraction)\n\n- **Traditional Tools:**\n  \n  - `dialog`\n  \n  - `whiptail`\n\n## Next Steps\n\n### Immediate Actions\n\n1. Formally review and approve this Project Brief.\n\n2. Begin Phase 0 of the Implementation Plan: Go project setup, CLI structure with Cobra.\n\n3. Prepare handoff to the Product Manager (PM) to start PRD creation.\n\n### PM Handoff\n\nThis Project Brief provides the complete context for the **shantilly** project. The next step is to engage the Product Manager (PM), John, to begin creating the Product Requirements Document (PRD) using the `prd-tmpl.yaml` template. Please review this brief thoroughly and collaborate with the user to create the PRD section by section, as indicated by the template, requesting necessary clarifications or suggesting improvements based on this brief. Initial focus on the MVP scope.\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/project-brief.md",
+        "source": "github:helton-godoy/shantilly:/docs/project-brief.md",
+        "tags": [],
+        "type": "doc"
+      }
+    }
+  ],
+  "latency_ms": 111983
+}

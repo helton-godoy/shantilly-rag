@@ -144,13 +144,21 @@ for cfg in "${CONFIG_FILES[@]}"; do
 
     if [[ -x "$RAG_CLI_BIN" ]]; then
       # Usa o binário compilado se estiver disponível
-      RAG_BASE_URL="$RAG_BASE_URL_DEFAULT" "$RAG_CLI_BIN" -timeout 600 -json "$QUERY" > "$out_file"
+      if RAG_BASE_URL="$RAG_BASE_URL_DEFAULT" "$RAG_CLI_BIN" -timeout 600 -json "$QUERY" > "$out_file"; then
+        log "[variant=$variant run=$run] rag-cli finalizado com sucesso"
+      else
+        log "[variant=$variant run=$run] rag-cli falhou (exit=$?) - marcando como erro no relatório"
+      fi
     else
       # Fallback: usa go run a partir de clients/go
       (
         cd "$RAG_CLI_DIR"
         # Usa timeout alto para evitar corte prematuro em CPU-only
-        RAG_BASE_URL="$RAG_BASE_URL_DEFAULT" $RAG_CLI_FALLBACK -timeout 600 -json "$QUERY"
+        if RAG_BASE_URL="$RAG_BASE_URL_DEFAULT" $RAG_CLI_FALLBACK -timeout 600 -json "$QUERY"; then
+          :
+        else
+          log "[variant=$variant run=$run] rag-cli (go run) falhou (exit=$?) - marcando como erro no relatório"
+        fi
       ) > "$out_file"
     fi
 
@@ -163,7 +171,7 @@ done
 if [[ -n "$CSV_OUT" ]]; then
   log "Gerando resumo CSV em $CSV_OUT"
   {
-    echo "variant,run,timestamp,latency_ms,file"
+    echo "variant,run,timestamp,latency_ms,status,file"
     for f in "${JSON_FILES[@]}"; do
       base="$(basename "$f")"   # ex.: vec30r6_run1_20251118_100015.json
       variant="${base%%_run*}"    # antes de _run
@@ -172,7 +180,12 @@ if [[ -n "$CSV_OUT" ]]; then
       ts="${rest#*_}"            # apos run_ -> 2025...
       ts="${ts%.json}"           # remove .json
       latency="$(grep -m1 '"latency_ms"' "$f" | tr -cd '0-9')"
-      echo "$variant,$run,$ts,$latency,$f"
+      if [[ -z "$latency" ]]; then
+        status="error"
+      else
+        status="ok"
+      fi
+      echo "$variant,$run,$ts,$latency,$status,$f"
     done
   } > "$CSV_OUT"
   log "Resumo CSV gerado em $CSV_OUT"

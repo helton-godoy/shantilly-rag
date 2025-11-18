@@ -1,0 +1,44 @@
+Você é um assistente encarregado de escrever um **relatório de benchmark** para o projeto Shantilly RAG.
+
+Você receberá, abaixo, o conteúdo de um arquivo CSV com os resultados de um benchmark.
+O CSV tem o seguinte formato (com cabeçalho):
+
+    variant,run,timestamp,latency_ms,status,file
+
+Onde:
+- `variant` é o nome lógico da configuração de retrieval (por exemplo, `vec20r5`, `vec30r6`, `vec40r10`).
+- `run` é o número da execução (1, 2, 3, ...).
+- `timestamp` é o momento em que a execução foi feita.
+- `latency_ms` é a latência total da requisição, em milissegundos.
+- `status` é `ok` quando a execução terminou bem e `error` quando houve falha (por exemplo, timeout ou erro 500).
+- `file` é o caminho para o JSON detalhado daquela execução.
+
+Sua tarefa é ler o CSV e produzir um **relatório em Markdown** com a seguinte estrutura (use títulos em português):
+
+1. Título principal: `# Relatório de benchmark do Shantilly RAG`
+2. Seção "Resumo" com:
+   - Explicação curta do objetivo do benchmark.
+   - Quais variantes foram testadas.
+   - Em qual máquina ou contexto (se for informado pelo usuário).
+3. Seção "Resultados por variante" com:
+   - Uma tabela em Markdown (`| col | ... |`) listando, para cada variante, pelo menos:
+     - variante
+     - número de execuções com `status = ok`
+     - latência mínima
+     - latência média (somente sobre execuções `ok`)
+   - Comente brevemente diferenças relevantes (por exemplo, configs que falharam ou que ficaram muito lentas).
+4. Seção "Erros e limitações" com:
+   - Lista das variantes que tiveram linhas com `status = error`.
+   - Interpretação em linguagem simples: por exemplo, "esta configuração parece inviável neste hardware".
+5. Seção "Conclusão e recomendação" com:
+   - Qual variante você recomenda como configuração padrão, justificando a escolha (latência vs estabilidade).
+   - Observações sobre possíveis próximos passos (por exemplo, testar com mais queries, ajustar `top_k`, etc.).
+
+Regras importantes:
+- **Não invente dados**. Baseie-se apenas nos valores presentes no CSV.
+- Se houver poucas execuções (por exemplo, apenas 1 por variante), deixe isso claro na conclusão.
+- Se não houver nenhuma linha com `status = ok` para uma variante, explique que não foi possível medir latência de forma confiável.
+- Escreva o texto em português, em tom técnico porém acessível.
+- Use Markdown válido (títulos com `#`, listas com `-`, tabelas bem formatadas).
+
+A seguir virá o conteúdo literal do CSV. Leia-o e depois escreva apenas o relatório Markdown, sem comentários extras.

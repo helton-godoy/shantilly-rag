@@ -1,0 +1,3 @@
+variant,run,timestamp,latency_ms,status,file
+vec20r5,1,20251118_114008,143390,ok,/home/helton/git/shantilly-rag/tools/report/bench_results/vec20r5_run1_20251118_114008.json
+vec30r6,1,20251118_114233,238396,ok,/home/helton/git/shantilly-rag/tools/report/bench_results/vec30r6_run1_20251118_114233.json
