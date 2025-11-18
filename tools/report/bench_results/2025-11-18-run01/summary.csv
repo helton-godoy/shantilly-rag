@@ -1,0 +1,4 @@
+variant,run,timestamp,latency_ms,status,file
+vec20r5,1,20251118_132256,298772,ok,tools/report/bench_results/2025-11-18-run01/vec20r5_run1_20251118_132256.json
+vec30r6,1,20251118_132758,292794,ok,tools/report/bench_results/2025-11-18-run01/vec30r6_run1_20251118_132758.json
+vec40r10,1,20251118_133253,147672,ok,tools/report/bench_results/2025-11-18-run01/vec40r10_run1_20251118_133253.json
