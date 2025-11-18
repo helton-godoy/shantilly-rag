@@ -49,6 +49,19 @@ Principais pastas na raiz do repositório:
   - `notes/` – notas conceituais de RAG, engenharia de contexto, etc.
   - `gum/` – documentação vendorizada do projeto gum.
 
+### 2.1. Visão lógica: core RAG, ferramentas e clientes
+
+- **Core RAG (engine e dados)**
+  - `server/`, `scripts/`, `config/`, `data/`, `tests/rag/`, `docs/rag/`.
+
+- **Ferramentas e automação em torno do RAG**
+  - `tools/admin/`, `tools/install/`, `tools/report/`, `tools/templates/`.
+
+- **Clientes e integrações**
+  - `clients/` (por exemplo, cliente Go `rag-cli` e futuros TUIs/SDKs).
+
+Essa visão separa o que é o "motor" do RAG (pipeline, servidor e dados) das ferramentas operacionais e dos clientes que consomem a API, mantendo a estrutura física atual do repositório.
+
 ---
 
 ## 3. Pipeline de dados
