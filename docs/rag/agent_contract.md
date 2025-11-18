@@ -15,12 +15,22 @@ Na organização atual do repositório (detalhada em `docs/rag/architecture.md`)
 
 Este contrato de agente descreve como clientes (via HTTP direto ou via `rag-cli -json`) devem interagir com o servidor RAG e interpretar os campos de resposta para uso em fluxos de agentes LLM.
 
+Assume-se que:
+
+- O pipeline de ingestão já foi executado pelo operador humano (ou automação) e a coleção do Qdrant está pronta.
+- O serviço RAG está acessível no ambiente onde o agente roda, via `RAG_BASE_URL` (default `http://127.0.0.1:8001`).
+
+Agentes **não são responsáveis** por instalar ou subir Qdrant, Ollama ou o serviço FastAPI; devem apenas consumir as interfaces expostas.
+
 ## 1. Endpoint HTTP `/query`
 
 ### 1.1. Request
 
+Por padrão, o servidor RAG é exposto em `http://127.0.0.1:8001` (ou no valor de `RAG_BASE_URL`, se definido).
+A URL completa típica é:
+
 ```http
-POST /query
+POST http://127.0.0.1:8001/query
 Content-Type: application/json
 ```
 
@@ -35,7 +45,7 @@ Content-Type: application/json
 ```
 
 - **query**: pergunta atual.
-- **history** (opcional): histórico de conversa, hoje ignorado pelo servidor (é ecoado, mas não muda a busca). Pode ser usado futuramente para query rewriting.
+- **history** (opcional): histórico de conversa. Hoje é ignorado pelo servidor (é ecoado, mas não muda a busca), mas pode ser usado futuramente para query rewriting. Agentes podem enviar esse campo, porém **não devem depender** de efeitos de memória ou reescrita de query na versão atual.
 
 ### 1.2. Response
 
@@ -59,6 +69,12 @@ Content-Type: application/json
   ]
 }
 ```
+
+### 1.3. Erros e códigos HTTP
+
+- Em caso de sucesso, o servidor retorna `200 OK` com o JSON no formato acima.
+- Em caso de erro interno (por exemplo, falha ao consultar o Qdrant ou o Ollama), o FastAPI normalmente responde com `500` e um corpo JSON contendo um campo `detail` com a mensagem de erro.
+- Erros de rede (timeout, conexão recusada, DNS, etc.) não produzem resposta HTTP; o agente deve tratá-los como **serviço indisponível** e decidir se tenta novamente ou falha graciosamente.
 
 #### Campos importantes de `documents.metadata`
 
@@ -155,6 +171,18 @@ Saída (exemplo simplificado):
 - Preferir o endpoint HTTP `/query` quando:
   - O agente está rodando em um ambiente que permite chamadas HTTP diretas.
   - Deseja controle completo sobre timeouts, batching, etc.
+
+### 2.4. Saída, logs e códigos de erro
+
+- No modo `-json`, o `rag-cli` imprime **apenas JSON** em `stdout` (sem prefixos ou logs misturados).
+- Mensagens de erro e diagnósticos são impressos em `stderr`.
+- Em caso de sucesso, o processo termina com código de saída `0`.
+- Em caso de falha (erro ao chamar o servidor RAG, ao decodificar a resposta ou ao serializar o JSON), o processo imprime uma mensagem em `stderr` e termina com código de saída diferente de zero.
+
+Agentes devem:
+
+- Ler o JSON apenas de `stdout`.
+- Tratar qualquer código de saída diferente de zero como falha da ferramenta, usando `stderr` apenas para diagnóstico (não para responder ao usuário final).
 
 ## 3. Boas práticas para agentes LLM
 

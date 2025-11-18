@@ -72,8 +72,32 @@ python scripts/index_qdrant.py --rebuild
 3. Subir o servidor RAG (quando implementado):
 
 ```bash
-uvicorn server.app:app --reload
+uvicorn server.app:app --host 0.0.0.0 --port 8001 --reload
 ```
+
+## Uso por agentes LLM
+
+Agentes LLM e integrações automatizadas podem consumir o Shantilly RAG de duas formas principais:
+
+- **API HTTP**: `POST http://127.0.0.1:8001/query`
+- **CLI Go**: `rag-cli -json "O que é o projeto Shantilly?"`
+
+Para detalhes completos do contrato de uso por agentes (schema JSON, metadados de documentos, boas práticas), consulte `docs/rag/agent_contract.md`.
+
+## Comandos de administração
+
+Para operadores humanos, os principais comandos de administração são expostos via `Makefile` (atalhos para `tools/admin/rag_cli.sh`):
+
+- `make ingest`              – executa ingestão completa (fetch_sources, build_chunks, index_qdrant).
+- `make dev`                 – sobe o servidor FastAPI (uvicorn) com a stack pronta.
+- `make eval`                – roda o avaliador RAG (`scripts/eval_rag.py`).
+- `make bootstrap`           – equivalente a `ingest + eval`.
+- `make wizard`              – abre o wizard interativo com gum.
+- `make install-qdrant`      – instala/atualiza o Qdrant local.
+- `make install-rag-service` – instala/ativa o serviço systemd do servidor RAG.
+- `make install-act`         – instala o `act` para rodar GitHub Actions localmente.
+
+Detalhes completos da arquitetura, pipeline e scripts de administração podem ser encontrados em `docs/rag/architecture.md`.
 
 ## CI/CD no GitHub
 

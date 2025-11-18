@@ -1,13 +1,13 @@
 retrieval:
   vector:
-    top_k: 12
+    top_k: 24
   text:
     top_k: 40
   hybrid:
     alpha: 0.6  # peso do score vetorial em relação ao textual
   rerank:
     enabled: true
-    top_k: 3
+    top_k: 6
     # modelo de reranking poderá ser local (via Ollama) ou outro provider
 
 query_rewrite:

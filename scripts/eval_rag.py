@@ -97,7 +97,7 @@ def call_llm_judge(
 
 
 def evaluate() -> None:
-    rag_base_url = os.getenv("RAG_BASE_URL", "http://127.0.0.1:8000")
+    rag_base_url = os.getenv("RAG_BASE_URL", "http://127.0.0.1:8001")
     ollama_base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
     judge_model = os.getenv("OLLAMA_JUDGE_MODEL", os.getenv("OLLAMA_CHAT_MODEL", "phi3:medium"))
 

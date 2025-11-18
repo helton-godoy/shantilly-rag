@@ -240,7 +240,7 @@ Subcomandos principais:
 
 - Template de unidade: `tools/templates/service/rag.service`.
 - Instalado via `tools/install/install_rag.sh` + `rag_cli.sh install-rag-service`.
-- Usa o Python do venv do repositório para rodar `uvicorn server.app:app` na porta 8000.
+- Usa o Python do venv do repositório para rodar `uvicorn server.app:app` na porta 8001 (exposto em `http://127.0.0.1:8001`).
 
 ---
 
