@@ -17,15 +17,15 @@ func usage() {
 	fmt.Fprintln(os.Stderr)
 	fmt.Fprintln(os.Stderr, "Opções:")
 	fmt.Fprintln(os.Stderr, "  -json       Saída em JSON bruto (amigável para agentes/integrações)")
-	fmt.Fprintln(os.Stderr, "  -timeout    Timeout em segundos para a requisição (default 60)")
+	fmt.Fprintln(os.Stderr, "  -timeout    Timeout em segundos para a requisição (default 300, 0 = sem timeout)")
 	fmt.Fprintln(os.Stderr)
 	fmt.Fprintln(os.Stderr, "Ambiente:")
 	fmt.Fprintln(os.Stderr, "  RAG_BASE_URL  URL base do servidor RAG (default http://127.0.0.1:8001)")
 }
 
 func main() {
-	jsonOut := flag.Bool("json", false, "Saída em JSON bruto")
-	timeoutSec := flag.Int("timeout", 60, "Timeout em segundos")
+	jsonOut := flag.Bool("json", false, "Saída em JSON bruto (amigável para agentes/integrações)")
+	timeoutSec := flag.Int("timeout", 300, "Timeout em segundos (0 = sem timeout)")
 	flag.Usage = usage
 	flag.Parse()
 
@@ -37,7 +37,14 @@ func main() {
 
 	question := strings.Join(args, " ")
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(*timeoutSec)*time.Second)
+	var ctx context.Context
+	var cancel context.CancelFunc
+	if *timeoutSec <= 0 {
+		ctx = context.Background()
+		cancel = func() {}
+	} else {
+		ctx, cancel = context.WithTimeout(context.Background(), time.Duration(*timeoutSec)*time.Second)
+	}
 	defer cancel()
 
 	client := ragclient.New()

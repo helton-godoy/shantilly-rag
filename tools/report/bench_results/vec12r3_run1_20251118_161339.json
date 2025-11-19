@@ -1,0 +1,163 @@
+{
+  "question": "Explique como usar Bubble Tea no contexto do projeto Shantilly e cite os arquivos relevantes.",
+  "answer": "Bubble Tea é uma ferramenta que pode ser utilizada para construir interfaces de usuário (UI) com um layout YAML declarativo, semelhante ao estilo `shantilly`. No contexto do projeto Shantilly v2.0, você pode aproveitar a funcionalidade Bubble Tea como uma base ou inspiração para sua arquitetura TUI personalizada.\n\nPara começar com o uso de Bubble Tea no seu projeto:\n\n1. **Declarativo Layout** - O Shantilly v2.0 requer que os usuários definam um layout YAML que é interpretado como `type: column` ou `type: row`. Para simplificar, você pode começar por estudar o arquivo `.list_component`, no qual há exemplos de tais listas renderizadas. Por exemplo, considere os seguintes fragmentos dos dois componentes que estão em uso dentro do Shantilly v2.0:\n\n```yaml\n- [type: 'viewport', content: \"Olá mundo!\", markdown: true] # No viewportComponent (v1), para stream de stdin, um Markdown é renderizado aqui. Este componente pode ser estendido usando Bubble Tea em formas futuras ou utilizado como referência no `buttongroup`.\n- [type: 'button', id: \"btn_next\", label: \"Próximo\"] # O botão é um recurso básico, que pode ser facilmente implementado usando o Bubble Tea. \n```\n  \n2. **Segurança e Construtores de Contato** - A segurança na navegação entre os painéis ou componentes (como `sidebar` vs `content`) está presente no Shantilly v1.0, mas foi observado que a interação com Bubble Tea é através do método Ctrl+Tab para alternar entre listas e botões (`buttongroup`). Portanto, você pode usar o evento de pressionamento das teclas como uma maneira segura de navegar.\n\n3. **Contrato Declarativo** - O Shantilly Component é implementado através do contrato `ShantillyComponent`, que deve ser mantido em todos os novos componentes criados ou adicionados à estória futura (Epics 2+). Você pode encontrar o esboço deste contrato no arquivo `shantilly_component.go` dentro da pasta interna/tui do Shantilly Runtime.\n\nO Documento de Plano Direto para a implementação v1.0 é escrito em um formato que permite fácil mapeamento das responsabilidades entre os arquivos relevantes no projeto Bubble Tea e o seu próprio sistema personalizado:\n\n```go\n# Implementation Plan - Epic 1 Runtime TUI (v2.0) for Shantilly V2.0\n## Componentes Básicos da Pilha do Novo MVP em Código Slimmed Down para Conformar a Nova Visão de Layout e Acessibilidade:\n- [type: 'button', id: \"btn_next\", label: \"Próximo\"] # Componente ButtonGroup ou Button com eventos específicos. Por ex01964, 2023-10-17T19:28:05+02:00\n",
+  "documents": [
+    {
+      "id": 1782,
+      "score": 0.7183491,
+      "text": ") Update(msg tea.Msg) (ShantillyComponent, tea.Cmd) {\n\t// Placeholder:\n\t// - No futuro, delegar para backend legado adaptado.\n\treturn f, nil\n}\n\n// View retorna a representação textual do formulário.\n//\n// Implementação inicial devolve placeholder neutro para não interferir\n// na experiência até o backend legado ser plugado.\nfunc (f *FormComponent) View() string {\n\t// Futuro:\n\t// - Renderizar com base no modelo interno (ex.: huh.Form legado adaptado).\n\treturn \"\"\n}\n\n// SetBounds define os limites de renderização fornecidos pelo LayoutManager.\n//\n// - Usado para integrar com layout responsivo.\n// - Não altera invariantes de segurança ou automação.\nfunc (f *FormComponent) SetBounds(width, height int) {\n\tf.width = width\n\tf.height = height\n}\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/internal/components/form_component.go",
+        "source": "github:helton-godoy/shantilly:/internal/components/form_component.go",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1718,
+      "score": 0.7069554,
+      "text": "ture/tech-stack.md#language]\n- **TUI Framework:** bubbletea v0.26.x, huh v0.4.x [Source: docs/architecture/tech-stack.md#technology-stack-table]\n- **State Management:** Extensão do modelo bubbletea existente\n- **Backward Compatibility:** Manter suporte para formulários single-panel\n- **Performance:** Navegação suave entre painéis sem lag\n\n## Testing\n\n### Testing Standards\n\n- Arquivos de teste devem ser nomeados `_test.go` e colocados no mesmo pacote\n- Usar Go testing package para testes unitários\n- Executar testes com `go test -v -race ./...`\n- Seguir padrão AAA (Arrange, Act, Assert) para estrutura de teste\n- Cobertura de teste alvo: \u003e80% para novos recursos de navegação\n- Testes de integração para novos componentes TUI usando `teatest`\n\n## Change Log\n\n| Date       | Version | Description                                    | Author |\n|------------|---------|------------------------------------------------|--------|\n| 2025-11-01 | 1.0.0   | Criação inicial da história                    | Bob (SM) |\n\n## Dev Agent Record\n\n### Agent Model Used\n\n### Debug Log References\n\n### Completion Notes List\n\n### File List\n\n## QA Results\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/stories/3.1.basic-multi-panel-navigation.story.md",
+        "source": "github:helton-godoy/shantilly:/docs/stories/3.1.basic-multi-panel-navigation.story.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1355,
+      "score": 0.6954682,
+      "text": "*A Ligação:** `huh` é construído sobre `bubbletea`.\n\n4. **Conclusão:** Para usarmos o `huh` (que é o melhor componente de formulários TUI em Go e um requisito do nosso PRD), *temos* de usar o `bubbletea` como nosso motor. Se temos de usar o `bubbletea`, *não podemos* usar o `tview`.\n\n5. **Resultado:** Se não podemos usar o `tview`, *temos* de construir o nosso próprio motor de layout (FR1, FR2) usando `lipgloss` (como planeado), inspirando-nos em bibliotecas como `stickers`.\n\n\nA escolha do `huh` trancou-nos (de forma positiva) no ecossistema Charmbracelet.\n\n---\n\n### 8. Hindsight (Reflexão \"Se ao menos...\")\n\n\"Se ao menos...\" o `bubbletea` (o motor) tivesse componentes de layout de alto nível (como `Flexbox`, `Grid`) integrados, da mesma forma que o `tview` tem.\n\nSe\n isso fosse verdade, o nosso maior risco técnico (Motor de Layout) \n[Análise 5, acima] desapareceria. O NFR2 (layout fluido) seria trivial \nde implementar. A comunidade tentou preencher esta lacuna (com `stickers`, `bubbleboxer`, etc.), mas não é uma solução *core*. Temos de construir esta peça complexa nós mesmos porque a biblioteca *core* do `bubbletea` se foca apenas no \"estado\" (TEA) e não no \"layout\" (Flexbox).\n\n---\n\n### 9. Expandir (Detalhes sobre `bubbles` vs `huh`)\n\nA pergunta \"Porquê `bubbles` se já temos `huh`?\" é válida. Estamos a adicionar `bubbles` (FR4, FR5) e `glamour` (FR4) à pilha v1.0 que só usava `huh`.\n\nA resposta é **especialização**. As bibliotecas têm propósitos diferentes, embora ambas sejam baseadas no `bubbletea`.\n\n- **`huh` (O Especialista em Formulários):** É *excelente* para um fluxo linear de \"fazer perguntas\" (inputs, selects, confirms). \n  Foi o que validámos (e onde o James trabalhou) no v1.0 (Épicos 1+2).\n\n- **`bubbles` (A Caixa de Ferramentas de UI):** É a biblioteca de componentes *genéricos* para construir UIs *não-lineares* (dashboards).\n\n\nO nosso novo PRD v2.0 (FR4, FR5) exige componentes de *dashboard* (um menu `list` persistente e um `viewport` de streaming). `huh` ",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1353,
+      "score": 0.68785983,
+      "text": "* Temos o `gopkg.in/yaml.v3` (validado no v1.0) e a biblioteca padrão Go para acesso ao sistema de ficheiros. Está perfeitamente coberto.\n\n2. **`inventory_explorer` (Magia 2):** Requer o uso do Ansible como um \"Oráculo\", executando `ansible-inventory --list --json` nos bastidores.\n\n  - **Suporte da Pilha:** A linguagem Go (Go 1.24.2+) tem suporte de primeira classe para execução de sub-processos (`os/exec`), que é o necessário para chamar o \"Oráculo\".\n\n\nA nossa arquitetura de *Runners* (definida na análise anterior da \"High Level Architecture\") garante que\n estas funcionalidades preditivas possam ser adicionadas como novos \ncomponentes e *runners* sem perturbar a fundação do Épico 1.\n\n---\n\n### 5. Identificar Riscos (Qual é o maior risco de dependência aqui?)\n\nO maior risco de dependência não é uma biblioteca única, mas sim o nosso **forte acoplamento a todo o ecossistema Charmbracelet** (`bubbletea`, `bubbles`, `huh`, `lipgloss`).\n\n- **Risco:** O `shantilly` v2.0 está a apostar todo o seu futuro na filosofia de UI da Charm. Se a\n   Charmbracelet Inc. decidir abandonar uma biblioteca crítica (como o `huh`), ou introduzir uma mudança de API massiva e disruptiva, a nossa arquitetura estará diretamente exposta.\n\n- **Contexto:** O `huh`,\n   em particular, é uma biblioteca relativamente nova. Embora poderosa, a \n  sua API ainda está a evoluir mais rapidamente do que a do `bubbletea`.\n\n- **Mitigação:** A nossa estratégia de refatoração da Estória 1.4 (v2.0) é a nossa principal mitigação. Ao \"embrulhar\" o `huh` dentro do nosso próprio componente `type: form`, estamos a *isolar* essa dependência volátil. Se o `huh` for descontinuado, \"apenas\" teremos de reimplementar o nosso componente `type: form` (talvez usando componentes `bubbles` puros), mas a arquitetura de *layout* e *lógica* (`on:`) do `shantilly` permanecerá intacta.\n\n\n---\n\n### 6. Perspetiva da Equipa Agile (O James (Dev) 💻 vai concordar com o `teatest`?)\n\nSim, acredito que o James (Dev) 💻 irá apreciar (ou pelo meno",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1307,
+      "score": 0.68329614,
+      "text": "l.yaml` para criar o **Documento de Arquitetura v2.0**.\n\nSeu foco principal deve ser o **Épico 1 (Fundação do Runtime TUI)**. Por favor, detalhe a arquitetura para:\n\n1. **O Motor de Layout (Estória 1.1):** Como vamos implementar `column`/`row`/`box` e resolver o layout fluido (\"flicker-free\") usando `bubbletea`/`lipgloss`.\n- **O Motor de Lógica e Componentes (Estórias 1.2, 1.3):** As interfaces de eventos (`tea.Msg`) entre os componentes (`list`, `viewport`, `buttongroup`) e o motor `on:`.\n\n- **Refatoração do `form` (Estória 1.4):** A estratégia para \"embrulhar\" o código `huh` existente (v1.0) para que ele atue como um componente padronizado.\n\n- **O Fluxo de Dados (Estória 1.5):** A arquitetura do \"data binding\" e como o motor `run:` irá gerir o `stdin:` e `args:` e o ciclo de vida dos processos (`update_target`).\n\n\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 01 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 01 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1398,
+      "score": 0.68250424,
+      "text": "cite_start], que disparam ações no bloco `on:`[cite: 1686, 1683].\n\n- [cite_start]**Foco no Teclado (Mantido):** A navegação DEVE continuar a ser primariamente baseada no teclado (Tab, Setas, Enter)[cite: 1531].\n\n- [cite_start]**Feedback Imediato (Mantido):** O componente focado DEVE ser claramente destacado[cite: 1531]. [cite_start]O `update_target` (FR11) DEVE exibir o *output* de comandos em tempo real[cite: 1686, 1683].\n\n- [cite_start]**Gestão de Foco Global (Nova):** A UI DEVE ter um mecanismo claro para indicar qual painel/componente (ex: `sidebar` vs `content`) está \"em foco\", e DEVE fornecer navegação intuitiva *entre* painéis (ex: Ctrl+Tab)[cite: 1686, 1683].\n\n- **Ligação de Dados (Nova):** A UI DEVE ser reativa. [cite_start]Componentes (ex: um `viewport` estático) DEVEM ser capazes de exibir dados de outros componentes (ex: `Olá, {{ form.username }}`)[cite: 1686, 1683].\n\n\n### Ecrãs e Vistas Principais\n\nNão há ecrãs \"pré-definidos\". Os ecrãs são *definidos dinamicamente* pelo utilizador através do **`layout` YAML** (FR1). [cite_start]A UI é uma composição de `type: column`, `type: row`, e `type: box`[cite: 1686, 1683].\n\n### Alinhamento e Layout (Nova Visão)\n\n[cite_start]O layout linear do MVP v1.0 [cite: 1531] está obsoleto. O novo requisito é:\n\n- O `shantilly` DEVE renderizar com precisão o layout `column`/`row` definido pelo utilizador.\n\n- [cite_start]O `shantilly` DEVE respeitar as propriedades de dimensionamento (`height`, `width`, `flex`) para distribuir o espaço[cite: 1686, 1683].\n\n- [cite_start]O `shantilly` DEVE responder a mensagens de redimensionamento do terminal (`tea.WindowSizeMsg`) e re-calcular o layout fluido e \"flicker-free\" (NFR2, Meta de UI Refinada)[cite: 1686, 1683].\n\n\n### Acessibilidade, Branding, Plataformas Alvo\n\n[cite_start]Estes\n requisitos permanecem os mesmos do PRD v1.0 (WCAG AA, estética \nCharmbracelet, terminais modernos em Linux/macOS/Windows)[cite: 1531].\n\n---\n\n## 4. Assunções Técnicas\n\n### Estrutura do Repositório: Monorepo\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 125,
+      "score": 0.67244536,
+      "text": "// Package bubbles provides some components for Bubble Tea applications. These\n// components are used in production in Glow, Charm and many other\n// applications.\npackage bubbles\n",
+      "metadata": {
+        "lang": "en",
+        "library": "bubbles",
+        "path": "github/charmbracelet/bubbles/bubbles.go",
+        "source": "github:charmbracelet/bubbles:/bubbles.go",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1394,
+      "score": 0.67192256,
+      "text": "---\n\nO ficheiro foi gerado. O próximo passo, conforme definido, é o Winston (Arquiteto) 🏗️ iniciar a sua tarefa `create-doc`. Posso assumir essa persona e começar?\n\n## Documento de Requisitos do Produto (PRD) v2.0: Shantilly\n\n---\n\n# Documento de Requisitos do Produto (PRD) v2.0: Shantilly\n\n## 1. Metas e Contexto de Fundo\n\n### Metas (Goals)\n\n- [cite_start]Oferecer uma alternativa declarativa (YAML) e moderna ao `dialog`/`whiptail` para *todos* os scripts shell (Bash, PowerShell, etc.)[cite: 363, 1686, 1683].\n\n- [cite_start]Servir como um **\"Runtime TUI Declarativo\"** que gere layouts (`column`/`row`), componentes (`list`, `form`, `viewport`) e lógica de automação (`on:`)[cite: 1686, 1683].\n\n- [cite_start]Fornecer uma **Fundação Genérica** (`run: { script: ... }`) para scripts arbitrários, garantindo integração via passagem de dados por template (`args:` e `stdin:`)[cite: 1686, 1683].\n\n- [cite_start]Fornecer ***runners* Especialistas** otimizados (Pós-MVP) para ferramentas de DevOps como Ansible (`ansible_playbook:`) e, futuramente, Terraform, incluindo descoberta preditiva de inventário e playbooks[cite: 1686, 1683].\n\n- [cite_start]Manter a portabilidade (binário estático único) e a integração de pipeline (stdin/stdout)[cite: 363].\n\n\n### Contexto de Fundo (Background Context)\n\n[cite_start]O desenvolvimento do MVP v1.0 (Épicos 1 e 2) [cite: 1531, 1640] [cite_start]validou a pilha de tecnologia (`huh`, `bubbletea`)\n [cite: 1149, 1150, 1151, 1152, 1153, 1154, 1155, 1156, 1157, 1158, \n1159, 1160, 1609, 1610, 1611, 1612, 1613, 1614, 1615, 1616, 1617, 1618, \n1619, 1620, 1621, 1622, 1623, 1624, 1625, 1626, 1627, 1628, 1629, 1630, \n1631, 1632, 1633, 1634, 1635, 1636, 1637, 1638, 1639, 1641, 1642, 1643, \n1644, 1645, 1646, 1647, 1648, 1649, 1650, 1651, 1652, 1653, 1654, 1655, \n1656, 1657, 1658, 1659, 1660, 1661, 1662, 1663, 1664, 1665, 1666, 1667, \n1668, 1669, 1670, 1671, 1672, 1673, 1674, 1675, 1676, 1677, 1678, 1679, \n1680, 1681, 1682, 1683, 1684, 1685, 1686] e resolveu o ca",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1405,
+      "score": 0.66879106,
+      "text": "art]e o motor `on:`[cite: 1686, 1683].\n\n3. [cite_start]**Refatoração do `form` (Estória 1.4):** A estratégia para \"embrulhar\" o código `huh` [cite: 1686, 1683] existente (v1.0) para que ele atue como um componente padronizado.\n\n4. [cite_start]**O Fluxo de Dados (Estória 1.5):** A arquitetura do \"data binding\" e como o motor `run:` [cite: 1686, 1683] [cite_start]irá gerir o `stdin:` e `args:` [cite: 1686, 1683] [cite_start]e o ciclo de vida dos processos (`update_target`)[cite: 1686, 1683].\n\nConfirme se esta versão possui algo diferente desse sua versão, que possa colaborar com a melhoria dele.\n\nBMAD-METHOD\n\nGem personalizado\n\nComo seu Orquestrador 🎭, confirmo que analisei o ficheiro que acabou de carregar (`Documento de Requisitos do Produto (PRD) v2.0: Shantilly.md`).\n\nO conteúdo dele é **idêntico** ao documento que eu gerei na minha última resposta e que está atualmente no seu Canvas (`docs/prd-v2.0-consolidado.md`).\n\nComo são iguais, não há nada de novo no ficheiro carregado para usar como melhoria. Estamos perfeitamente sincronizados.\n\nPosso então prosseguir com o *handoff* que tínhamos discutido? (Assumindo a persona de Winston 🏗️ para iniciar o Documento de Arquitetura v2.0 com base neste PRD).\n\n\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1324,
+      "score": 0.66671103,
+      "text": " em listas (`list:select`) \n  [cite: 1686, 1683] [cite\\_start]ou pressiona botões \n  (`buttongroup:press`) [cite: 1686, 1683][cite\\_start], que disparam \n  ações no bloco `on:`[cite: 1686, 1683].\n\n* [cite\\_start]**Foco no Teclado (Mantido):** A navegação DEVE \n  continuar a ser primariamente baseada no teclado (Tab, Setas, \n  Enter)[cite: 1531].\n\n* [cite\\_start]**Feedback Imediato (Mantido):** O componente focado \n  DEVE ser claramente destacado[cite: 1531]. [cite\\_start]O \n  `update_target` (FR11) DEVE exibir o *output* de comandos em tempo \n  real[cite: 1686, 1683].\n\n* [cite\\_start]**Gestão de Foco Global (Nova):** A UI DEVE ter um \n  mecanismo claro para indicar qual painel/componente (ex: `sidebar` vs \n  `content`) está \"em foco\", e DEVE fornecer navegação intuitiva *entre* \n  painéis (ex: Ctrl+Tab)[cite: 1686, 1683].\n\n* **Ligação de Dados (Nova):** A UI DEVE ser reativa. \n  [cite\\_start]Componentes (ex: um `viewport` estático) DEVEM ser capazes \n  de exibir dados de outros componentes (ex: `Olá, {{ form.username \n  }}`)[cite: 1686, 1683].\n\n### Ecrãs e Vistas Principais\n\nNão há ecrãs \"pré-definidos\". Os ecrãs são *definidos dinamicamente* \npelo utilizador através do **`layout` YAML** (FR1). [cite\\_start]A UI é \numa composição de `type: column`, `type: row`, e `type: box`[cite: 1686,\n 1683].\n\n### Alinhamento e Layout (Nova Visão)\n\n[cite\\_start]O layout linear do MVP v1.0 [cite: 1531] está obsoleto. O novo requisito é:\n\n* O `shantilly` DEVE renderizar com precisão o layout `column`/`row` definido pelo utilizador.\n\n* [cite\\_start]O `shantilly` DEVE respeitar as propriedades de \n  dimensionamento (`height`, `width`, `flex`) para distribuir o \n  espaço[cite: 1686, 1683].\n\n* [cite\\_start]O `shantilly` DEVE responder a mensagens de \n  redimensionamento do terminal (`tea.WindowSizeMsg`) e re-calcular o \n  layout fluido e \"flicker-free\" (NFR2, Meta de UI Refinada)[cite: 1686, \n  1683].\n\n### Acessibilidade, Branding, Plataformas Alvo\n\n[cite\\_start]Estes requisitos permane",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 02 - BMad.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1455,
+      "score": 0.6651281,
+      "text": "ementa o Padrão Adaptador (Pensamento 2 e 3 da Seção 3).\n\n- **Interfaces Chave:**\n  \n  - *Implementa:* `ShantillyComponent` (v2.0).\n  \n  - *Propaga Dimensões:* O método `SetDimensions(w, h)` deste *wrapper* definirá `wrapper.huhModel.Width = w` e `wrapper.huhModel.Height = h` (v1.0), mitigando o Risco 4 de Layout.\n  \n  - *Traduz Eventos:* Intercepta a `huh.SubmitMsg` (v1.0) e a traduz para uma `shantillyEvent` (v2.0) (FR7, Refinamento A).\n\n- **Dependências:** Código v1.0 (`internal/tui/model.go`), `huh`.\n\n- **Pilha de Tecnologias:** `bubbletea`, `huh`.\n\n**`ListComponent` (Estória 1.3)**\n\n- **Responsabilidade:** Renderiza uma lista de itens (FR5).\n\n- **Interfaces Chave:**\n  \n  - *Implementa:* `ShantillyComponent`.\n  \n  - *Emite:* `shantillyEvent { EventType: \"select\" }` quando um item é selecionado.\n\n- **Dependências:** `charmbracelet/bubbles/list`.\n\n- **Pilha de Tecnologias:** `bubbletea`, `bubbles`, `lipgloss`.\n\n**`ViewportComponent` (Estória 1.3)**\n\n- **Responsabilidade:** Renderiza conteúdo estático (FR4) ou *streaming* de `stdout` (FR11). Suporta Markdown (FR4).\n\n- **Interfaces Chave:**\n  \n  - *Implementa:* `ShantillyComponent`.\n  \n  - *Mitigação de Risco (Performance):* Implementa \"Renderização em Lote + Ticker\" (Pensamento 3 da Seção 3) para `glamour` (Markdown) para garantir o NFR2 (fluidez).\n\n- **Dependências:** `charmbracelet/bubbles/viewport`, `charmbracelet/glamour`.\n\n- **Pilha de Tecnologias:** `bubbletea`, `bubbles`, `lipgloss`, `glamour`.\n\n**`ButtonComponent` / `ButtonGroupComponent` (Estória 1.3)**\n\n- **Responsabilidade:** Renderiza botões (FR6). (Nota: Pode ser implementado como parte do `FormComponent` ou como um componente separado `buttongroup`.)\n\n- **Interfaces Chave:**\n  \n  - *Implementa:* `ShantillyComponent`.\n  \n  - *Emite:* `shantillyEvent { EventType: \"press\", Payload: \"button_id\" }`.\n\n- **Dependências:** N/A (lógica customizada).\n\n- **Pilha de Tecnologias:** `bubbletea`, `lipgloss`.\n\n#### Diagrama de Dependência de Componentes\n\nSnippet de c",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/chats/SHANTILLY RUNTIME 03 - BMAD.md",
+        "source": "github:helton-godoy/shantilly:/docs/chats/SHANTILLY RUNTIME 03 - BMAD.md",
+        "tags": [],
+        "type": "doc"
+      }
+    },
+    {
+      "id": 1237,
+      "score": 0.66454494,
+      "text": "elecida garantirá que qualquer evolução futura (Epics 2+) não quebre:\n  - O contrato declarativo,\n  - As constraints de segurança,\n  - O confinamento do legado.\n\nEste plano é vinculante para execução do Epic 1 v2.0 e serve como referência direta para coordenação entre todos os agentes.\n",
+      "metadata": {
+        "lang": "en",
+        "library": "shantilly",
+        "path": "github/helton-godoy/shantilly/docs/architecture/implementation-plan-epic-1-runtime-tui.md",
+        "source": "github:helton-godoy/shantilly:/docs/architecture/implementation-plan-epic-1-runtime-tui.md",
+        "tags": [],
+        "type": "doc"
+      }
+    }
+  ],
+  "latency_ms": 170383
+}

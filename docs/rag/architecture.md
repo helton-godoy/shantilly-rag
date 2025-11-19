@@ -144,6 +144,14 @@ Essa visão separa o que é o "motor" do RAG (pipeline, servidor e dados) das fe
 - `rewrite_query(history, query)`:
   - Stub atual (pode ser evoluído para usar histórico ou técnicas de Query Rewriting).
 
+### 4.4. Estado atual vs visão futura
+
+- A documentação geral (por exemplo, `README.md`) menciona **busca híbrida** e **query rewriting** como parte da visão do projeto.
+- Na implementação atual:
+  - A busca é **vetorial** em Qdrant, com um `rerank` simples baseado em `score` e `top_k` configurados em `config/retrieval.yaml`.
+  - `rewrite_query` é um **stub**: não usa o `history` de forma avançada nem aplica técnicas sofisticadas de reescrita.
+- Recursos futuros como reranking avançado (LLM ou reranker dedicado), busca híbrida completa e memória semântica devem ser introduzidos de forma incremental, com documentação própria em `docs/rag/` (ex.: `design_hybrid_retrieval.md`).
+
 ---
 
 ## 5. Ferramentas, automação e UX

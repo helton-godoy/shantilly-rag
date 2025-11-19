@@ -84,6 +84,12 @@ Agentes LLM e integrações automatizadas podem consumir o Shantilly RAG de duas
 
 Para detalhes completos do contrato de uso por agentes (schema JSON, metadados de documentos, boas práticas), consulte `docs/rag/agent_contract.md`.
 
+Notas importantes para agentes/integrações:
+
+- Consultas podem ter **latência alta** (por exemplo, 60–130s) dependendo do modelo/estrutura de retrieval.
+- O cliente `rag-cli` possui uma flag `-timeout` (em segundos) e usa por padrão **300s** de timeout por requisição.
+- Passar `-timeout 0` desativa o timeout no cliente; o orquestrador/agente deve então aplicar seu próprio timeout externo, se necessário.
+
 ## Comandos de administração
 
 Para operadores humanos, os principais comandos de administração são expostos via `Makefile` (atalhos para `tools/admin/rag_cli.sh`):

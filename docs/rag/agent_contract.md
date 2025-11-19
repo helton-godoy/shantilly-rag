@@ -22,6 +22,31 @@ Assume-se que:
 
 Agentes **não são responsáveis** por instalar ou subir Qdrant, Ollama ou o serviço FastAPI; devem apenas consumir as interfaces expostas.
 
+## 0.1. Quick start para agentes
+
+Esta seção resume o caminho mínimo para um agente consumir o RAG, sem precisar ler o documento completo.
+
+- **HTTP direto** (quando o agente pode fazer chamadas HTTP):
+
+  ```bash
+  curl -sS -X POST "http://127.0.0.1:8001/query" \
+    -H 'Content-Type: application/json' \
+    -d '{"query": "Explique como usar Bubble Tea no contexto do projeto Shantilly", "history": []}'
+  ```
+
+- **CLI Go (`rag-cli`)** (quando o orquestrador só invoca binários):
+
+  ```bash
+  RAG_BASE_URL="http://127.0.0.1:8001" \
+    rag-cli -json "Explique como usar Bubble Tea no contexto do projeto Shantilly"
+  ```
+
+Notas importantes para agentes:
+
+- Respostas podem levar **dezenas de segundos** (por exemplo, 60–130s em consultas mais pesadas com modelos locais).
+- O cliente `rag-cli` usa **timeout padrão de 300s** por requisição.
+- Passar `-timeout 0` desativa o timeout no cliente (usa `context.Background()`); o agente deve então aplicar o seu próprio timeout externo, se necessário.
+
 ## 1. Endpoint HTTP `/query`
 
 ### 1.1. Request
@@ -162,6 +187,14 @@ Saída (exemplo simplificado):
   - Tempo total, em milissegundos, desde o envio da requisição até o recebimento da resposta do servidor.
   - Útil para monitorar desempenho e decidir se é necessário ajustar parâmetros de retrieval ou timeout.
 
+### 2.5. Timeouts e latência do `rag-cli`
+
+- O `rag-cli` possui uma flag `-timeout` (em segundos):
+  - **Default**: `-timeout 300` (300 segundos).
+  - **Sem timeout**: `-timeout 0` (o cliente não impõe limite; o agente/orquestrador deve cuidar do timeout externo).
+- Em consultas mais pesadas (por exemplo, perguntas amplas sobre arquitetura do Shantilly ou uso de Bubble Tea), é esperado que a latência fique na casa de **dezenas de segundos**.
+- Agentes devem evitar tratar timeouts curtos (por exemplo, `< 60s`) como erro de negócio definitivo; muitas vezes é apenas latência de LLM + retrieval.
+
 ### 2.3. Integração recomendada para agentes
 
 - Preferir o uso de `rag-cli -json` quando o agente:
@@ -198,5 +231,23 @@ Agentes devem:
 
 4. **Não depender de um único campo**
    - A combinação de `source`, `path`, `type`, `lang` e `tags` é estável, mas algum campo pode estar ausente para determinados documentos.
+
+## 4. Troubleshooting básico para agentes
+
+- **HTTP 500 / erro interno do servidor**
+  - Tratar como falha do backend (RAG/Qdrant/Ollama), não como erro da pergunta.
+  - Próximos passos típicos para operadores humanos: checar `/health`, logs do serviço RAG, status do Qdrant e do Ollama.
+
+- **Erros de rede (conexão recusada, timeout HTTP, DNS)**
+  - Interpretar como serviço indisponível ou ambiente mal configurado.
+  - O agente pode tentar novamente após um pequeno atraso, mas não deve mascarar o problema como “nenhuma informação encontrada”.
+
+- **Timeout no `rag-cli`**
+  - Se o agente estiver usando um timeout muito baixo (por exemplo, `< 60s`) e receber `context deadline exceeded`, considerar aumentar o valor ou usar `-timeout 0` e aplicar um timeout externo.
+  - Lembrar que o default do `rag-cli` é `300s`, justamente para acomodar consultas pesadas.
+
+- **Resposta sem documentos relevantes**
+  - Quando `documents` vier vazio ou com trechos pouco relacionados, o agente deve assumir possível **gap no corpus** ou limitação do modelo.
+  - Em vez de alucinar, responder explicitamente que não há contexto suficiente e, se possível, sugerir ao usuário que refine a pergunta ou atualize o corpus.
 
 Com esse contrato, agentes LLM podem consumir o Shantilly RAG de maneira previsível, tanto via HTTP direto quanto via CLI Go (`rag-cli -json`), com acesso estruturado às fontes e à latência da consulta.
